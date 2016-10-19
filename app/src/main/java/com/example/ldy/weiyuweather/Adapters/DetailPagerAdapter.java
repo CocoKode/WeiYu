@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ldy.weiyuweather.R;
+import com.example.ldy.weiyuweather.Utils.SharedPreferenceUtil;
 import com.example.ldy.weiyuweather.Utils.Utils;
 
 import static com.example.ldy.weiyuweather.Utils.Utils.setupDetailItem;
@@ -15,30 +16,36 @@ import static com.example.ldy.weiyuweather.Utils.Utils.setupDetailItem;
  * Created by LDY on 2016/10/1.
  */
 public class DetailPagerAdapter extends PagerAdapter {
-    private final Utils.LibraryObject[] DETAIL_LIBRARIES = new Utils.LibraryObject[] {
-            new Utils.LibraryObject(
+    private final Utils.DetailLibraryObject[] DETAIL_LIBRARIES = new Utils.DetailLibraryObject[] {
+            new Utils.DetailLibraryObject(
                     R.drawable.clothes,
-                    "穿衣指数"
+                    "穿衣指数",
+                    SharedPreferenceUtil.getInstance().getString("dressTxt", "未知")
             ),
-            new Utils.LibraryObject(
+            new Utils.DetailLibraryObject(
                     R.drawable.uv,
-                    "紫外线强度"
+                    "紫外线强度",
+                    SharedPreferenceUtil.getInstance().getString("uvTxt", "未知")
             ),
-            new Utils.LibraryObject(
+            new Utils.DetailLibraryObject(
                     R.drawable.flu,
-                    "感冒指数"
+                    "感冒指数",
+                    SharedPreferenceUtil.getInstance().getString("fluTxt", "未知")
             ),
-            new Utils.LibraryObject(
+            new Utils.DetailLibraryObject(
                     R.drawable.car,
-                    "洗车指数"
+                    "洗车指数",
+                    SharedPreferenceUtil.getInstance().getString("carTxt", "未知")
             ),
-            new Utils.LibraryObject(
+            new Utils.DetailLibraryObject(
                     R.drawable.sport,
-                    "运动指数"
+                    "运动指数",
+                    SharedPreferenceUtil.getInstance().getString("sportTxt", "未知")
             ),
-            new Utils.LibraryObject(
+            new Utils.DetailLibraryObject(
                     R.drawable.travel,
-                    "旅游指数"
+                    "旅游指数",
+                    SharedPreferenceUtil.getInstance().getString("travelTxt", "未知")
             )
     };
 

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ldy.weiyuweather.R;
+import com.example.ldy.weiyuweather.Utils.SharedPreferenceUtil;
 import com.example.ldy.weiyuweather.Utils.Utils;
 import com.gigamole.infinitecycleviewpager.VerticalInfiniteCycleViewPager;
 
@@ -19,31 +20,31 @@ public class HorizontalPagerAdapter extends PagerAdapter{
     private final Utils.LibraryObject[] LIBRARIES = new Utils.LibraryObject[] {
             new Utils.LibraryObject(
                     R.drawable.clound,
-                    "周一"
+                    SharedPreferenceUtil.getInstance().getString("day1", "未知")
             ),
             new Utils.LibraryObject(
                     R.drawable.clound,
-                    "周二"
+                    SharedPreferenceUtil.getInstance().getString("day2", "未知")
             ),
             new Utils.LibraryObject(
                     R.drawable.clound,
-                    "周三"
+                    SharedPreferenceUtil.getInstance().getString("day3", "未知")
             ),
             new Utils.LibraryObject(
                     R.drawable.clound,
-                    "周四"
+                    SharedPreferenceUtil.getInstance().getString("day4", "未知")
             ),
             new Utils.LibraryObject(
                     R.drawable.clound,
-                    "周五"
+                    SharedPreferenceUtil.getInstance().getString("day5", "未知")
             ),
             new Utils.LibraryObject(
                     R.drawable.clound,
-                    "周六"
+                    SharedPreferenceUtil.getInstance().getString("day6", "未知")
             ),
             new Utils.LibraryObject(
                     R.drawable.clound,
-                    "周日"
+                    SharedPreferenceUtil.getInstance().getString("day7", "未知")
             )
     };
 

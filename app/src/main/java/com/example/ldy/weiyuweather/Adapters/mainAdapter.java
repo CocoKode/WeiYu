@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.example.ldy.weiyuweather.Json.Weather;
 import com.example.ldy.weiyuweather.Screens.DetailPagerFragment;
 import com.example.ldy.weiyuweather.Screens.HorizontalPagerFragment;
 import com.example.ldy.weiyuweather.Screens.TablePagerFragment;

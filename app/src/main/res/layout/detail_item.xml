@@ -18,23 +18,52 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center">
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/detail_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:src="@drawable/flu"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/detail_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:textColor="#ffffffff"
-                android:textSize="30sp"
-                android:typeface="sans"
-                tools:text="感冒指数"/>
+                <ImageView
+                    android:id="@+id/detail_img"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    tools:src="@drawable/flu"/>
+
+                <TextView
+                    android:id="@+id/detail_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#ffffffff"
+                    android:textSize="30sp"
+                    android:typeface="sans"
+                    tools:text="感冒指数"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/detail_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:textColor="#ffffffff"
+                    android:textSize="20sp"
+                    tools:text="内容"/>
+            </LinearLayout>
         </LinearLayout>
+
+
     </android.support.v7.widget.CardView>
 </FrameLayout>
