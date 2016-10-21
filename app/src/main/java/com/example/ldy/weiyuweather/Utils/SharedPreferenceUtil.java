@@ -49,6 +49,22 @@ public class SharedPreferenceUtil {
             putString("day5Info", weather.dailyForecast.get(4).cond.txtD);
             putString("day6Info", weather.dailyForecast.get(5).cond.txtD);
             putString("day7Info", weather.dailyForecast.get(6).cond.txtD);
+
+            putString("day1NowTmp", weather.now.tmp);
+            putString("day1MinTmp", weather.dailyForecast.get(0).tmp.min);
+            putString("day1MaxTmp", weather.dailyForecast.get(0).tmp.max);
+            putString("day2MinTmp", weather.dailyForecast.get(1).tmp.min);
+            putString("day2MaxTmp", weather.dailyForecast.get(1).tmp.max);
+            putString("day3MinTmp", weather.dailyForecast.get(1).tmp.min);
+            putString("day3MaxTmp", weather.dailyForecast.get(2).tmp.max);
+            putString("day4MinTmp", weather.dailyForecast.get(3).tmp.min);
+            putString("day4MaxTmp", weather.dailyForecast.get(3).tmp.max);
+            putString("day5MinTmp", weather.dailyForecast.get(4).tmp.min);
+            putString("day5MaxTmp", weather.dailyForecast.get(4).tmp.max);
+            putString("day6MinTmp", weather.dailyForecast.get(5).tmp.min);
+            putString("day6MaxTmp", weather.dailyForecast.get(5).tmp.max);
+            putString("day7MinTmp", weather.dailyForecast.get(6).tmp.min);
+            putString("day7MaxTmp", weather.dailyForecast.get(6).tmp.max);
         } catch (Exception e) {
             e.printStackTrace();
         }

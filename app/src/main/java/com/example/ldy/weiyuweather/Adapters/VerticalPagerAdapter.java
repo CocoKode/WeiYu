@@ -18,7 +18,9 @@ public class VerticalPagerAdapter extends PagerAdapter {
     private final Utils.LibraryObject[] TWO_WAY_LIBRARIES = new Utils.LibraryObject[] {
             new Utils.LibraryObject(
                     R.drawable.clound,
-                    "待办事项"
+                    "待办事项",
+                    "未知",
+                    "未知"
             )
     };
 
@@ -37,7 +39,7 @@ public class VerticalPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         final View view = mLayoutInflater.inflate(R.layout.item, container);
 
-        setupItem(view, TWO_WAY_LIBRARIES[position]);
+        //setupItem(view, TWO_WAY_LIBRARIES[position]);
 
         container.addView(view);
         return view;

@@ -15,6 +15,7 @@ import com.example.ldy.weiyuweather.Utils.RxBus;
 import com.example.ldy.weiyuweather.Utils.SharedPreferenceUtil;
 import com.example.ldy.weiyuweather.Utils.ToastUtil;
 import com.gigamole.navigationtabbar.ntb.NavigationTabBar;
+import com.thbs.skycons.library.Cloud;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import java.util.ArrayList;
@@ -32,6 +33,21 @@ public class MainActivity extends RxAppCompatActivity {
     private static Weather mWeather = new Weather();
 
     private static mainAdapter mMainAdapter;
+
+    //图标代号
+    private int UNkNOWN = 0;
+    private int SUNNY = 1;
+    private int NIGHT = 2;
+    private int PARTLY_CLOUD_DAY = 3;
+    private int PARTLY_CLOUD_NIGHT = 4;
+    private int CLOUDY = 5;
+    private int RAIN = 6;
+    private int HEAVY_RAIN = 7;
+    private int SNOW = 8;
+    private int WIND = 9;
+    private int FOG = 10;
+    private int THUNDER = 11;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +69,7 @@ public class MainActivity extends RxAppCompatActivity {
 
         ButterKnife.bind(this);
         load();
+        //initIcons();
         initViewPager();
     }
 
@@ -67,21 +84,21 @@ public class MainActivity extends RxAppCompatActivity {
                 new NavigationTabBar.Model.Builder(
                         getResources().getDrawable(R.drawable.weather),
                         Color.parseColor("#f9bb72"))
-                        .title("天气")
+                        .title("一周天气")
                         .build()
         );
         models.add(
                 new NavigationTabBar.Model.Builder(
                         getResources().getDrawable(R.drawable.table),
                         Color.parseColor("#a3a3a3"))
-                        .title("图表")
+                        .title("预测图表")
                         .build()
         );
         models.add(
                 new NavigationTabBar.Model.Builder(
                         getResources().getDrawable(R.drawable.notice),
                         Color.parseColor("#499092"))
-                        .title("生活")
+                        .title("生活指数")
                         .build()
         );
         navigationTabBar.setModels(models);
@@ -126,5 +143,28 @@ public class MainActivity extends RxAppCompatActivity {
         return RetrofitSingleton.getInstance()
                 .fetchWeather(cityId)
                 .compose(this.bindToLifecycle());
+    }
+
+    //初始化天气图标
+    private void initIcons() {
+        SharedPreferenceUtil.putInt("未知", UNkNOWN);
+        SharedPreferenceUtil.putInt("晴", SUNNY);
+        SharedPreferenceUtil.putInt("阴", CLOUDY);
+        SharedPreferenceUtil.putInt("多云", CLOUDY);
+        SharedPreferenceUtil.putInt("少云", CLOUDY);
+        SharedPreferenceUtil.putInt("晴间多云", PARTLY_CLOUD_DAY);
+        SharedPreferenceUtil.putInt("小雨", RAIN);
+        SharedPreferenceUtil.putInt("中雨", RAIN);
+        SharedPreferenceUtil.putInt("大雨", HEAVY_RAIN);
+        SharedPreferenceUtil.putInt("阵雨", HEAVY_RAIN);
+        SharedPreferenceUtil.putInt("雷阵雨", THUNDER);
+        SharedPreferenceUtil.putInt("霾", FOG);
+        SharedPreferenceUtil.putInt("雾", FOG);
+        SharedPreferenceUtil.putInt("小雪", SNOW);
+        SharedPreferenceUtil.putInt("中雪", SNOW);
+        SharedPreferenceUtil.putInt("大雪", SNOW);
+        SharedPreferenceUtil.putInt("有风", WIND);
+        SharedPreferenceUtil.putInt("微风", WIND);
+        SharedPreferenceUtil.putInt("大风", WIND);
     }
 }

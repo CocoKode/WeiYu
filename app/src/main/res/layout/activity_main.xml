@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#423752"
+    android:background="#ffffffff"
     android:orientation="vertical"
     tools:context=".Screens.MainActivity">
 
@@ -20,19 +20,14 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="7"
-        android:background="#423752">
+        android:layout_weight="9"
+        android:background="#ffffffff">
 
         <com.example.ldy.weiyuweather.Utils.NonScrollableViewPager
             android:id="@+id/vp_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="#423752"
-            android:cacheColorHint="#00000000"/>
     </FrameLayout>
     
     <com.gigamole.navigationtabbar.ntb.NavigationTabBar

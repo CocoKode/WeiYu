@@ -10,10 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         app:cardCornerRadius="10dp"
-        app:cardElevation="20dp"
+        app:cardElevation="10dp"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true"
-        android:layout_marginTop="1dp"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
         app:cardBackgroundColor="#43abae">

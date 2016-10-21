@@ -19,32 +19,46 @@ import static com.example.ldy.weiyuweather.Utils.Utils.setupItem;
 public class HorizontalPagerAdapter extends PagerAdapter{
     private final Utils.LibraryObject[] LIBRARIES = new Utils.LibraryObject[] {
             new Utils.LibraryObject(
-                    R.drawable.clound,
-                    SharedPreferenceUtil.getInstance().getString("day1", "未知")
+                    R.drawable.midnightinthevalley2,
+                    SharedPreferenceUtil.getInstance().getString("day1", "未知"),
+                    SharedPreferenceUtil.getInstance().getString("day1Info", "未知"),
+                    SharedPreferenceUtil.getInstance().getString("day1NowTmp", "未知")
             ),
             new Utils.LibraryObject(
-                    R.drawable.clound,
-                    SharedPreferenceUtil.getInstance().getString("day2", "未知")
+                    R.drawable.midnightinthevalley2,
+                    SharedPreferenceUtil.getInstance().getString("day2", "未知"),
+                    SharedPreferenceUtil.getInstance().getString("day2Info", "未知"),
+                    SharedPreferenceUtil.getInstance().getString("day2MaxTmp", "未知")
             ),
             new Utils.LibraryObject(
-                    R.drawable.clound,
-                    SharedPreferenceUtil.getInstance().getString("day3", "未知")
+                    R.drawable.midnightinthevalley2,
+                    SharedPreferenceUtil.getInstance().getString("day3", "未知"),
+                    SharedPreferenceUtil.getInstance().getString("day3Info", "未知"),
+                    SharedPreferenceUtil.getInstance().getString("day3MaxTmp", "未知")
             ),
             new Utils.LibraryObject(
-                    R.drawable.clound,
-                    SharedPreferenceUtil.getInstance().getString("day4", "未知")
+                    R.drawable.midnightinthevalley2,
+                    SharedPreferenceUtil.getInstance().getString("day4", "未知"),
+                    SharedPreferenceUtil.getInstance().getString("day4Info", "未知"),
+                    SharedPreferenceUtil.getInstance().getString("day4MaxTmp", "未知")
             ),
             new Utils.LibraryObject(
-                    R.drawable.clound,
-                    SharedPreferenceUtil.getInstance().getString("day5", "未知")
+                    R.drawable.midnightinthevalley2,
+                    SharedPreferenceUtil.getInstance().getString("day5", "未知"),
+                    SharedPreferenceUtil.getInstance().getString("day5Info", "未知"),
+                    SharedPreferenceUtil.getInstance().getString("day5MaxTmp", "未知")
             ),
             new Utils.LibraryObject(
-                    R.drawable.clound,
-                    SharedPreferenceUtil.getInstance().getString("day6", "未知")
+                    R.drawable.midnightinthevalley2,
+                    SharedPreferenceUtil.getInstance().getString("day6", "未知"),
+                    SharedPreferenceUtil.getInstance().getString("day6Info", "未知"),
+                    SharedPreferenceUtil.getInstance().getString("day6MaxTmp", "未知")
             ),
             new Utils.LibraryObject(
-                    R.drawable.clound,
-                    SharedPreferenceUtil.getInstance().getString("day7", "未知")
+                    R.drawable.midnightinthevalley2,
+                    SharedPreferenceUtil.getInstance().getString("day7", "未知"),
+                    SharedPreferenceUtil.getInstance().getString("day7Info", "未知"),
+                    SharedPreferenceUtil.getInstance().getString("day7MaxTmp", "未知")
             )
     };
 
@@ -77,7 +91,7 @@ public class HorizontalPagerAdapter extends PagerAdapter{
             verticalInfiniteCycleViewPager.setCurrentItem(position);
         } else {
             view = mLayoutInflater.inflate(R.layout.item, container, false);
-            setupItem(view, LIBRARIES[position]);
+            setupItem(view, LIBRARIES[position], mContext);
         }
         container.addView(view);
         return view;
