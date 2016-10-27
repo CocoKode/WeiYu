@@ -29,11 +29,18 @@ public class SharedPreferenceUtil {
 
     public static void save(Weather weather) {
         saveWeekWeather(weather);
+        saveNowWeather(weather);
+        saveWind(weather);
+        saveHumidity(weather);
         saveSuggestions(weather);
     }
 
     private static void saveWeekWeather(Weather weather) {
         try {
+            //存入当天日出日落时间
+            putString("sunRise", weather.dailyForecast.get(0).astro.sr);
+            putString("sunSet", weather.dailyForecast.get(0).astro.ss);
+
             putString("day1", "今日");
             putString("day2", "明日");
             putString("day3", Utils.dayForWeek(weather.dailyForecast.get(2).date));
@@ -50,7 +57,6 @@ public class SharedPreferenceUtil {
             putString("day6Info", weather.dailyForecast.get(5).cond.txtD);
             putString("day7Info", weather.dailyForecast.get(6).cond.txtD);
 
-            putString("day1NowTmp", weather.now.tmp);
             putString("day1MinTmp", weather.dailyForecast.get(0).tmp.min);
             putString("day1MaxTmp", weather.dailyForecast.get(0).tmp.max);
             putString("day2MinTmp", weather.dailyForecast.get(1).tmp.min);
@@ -68,6 +74,37 @@ public class SharedPreferenceUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static void saveNowWeather(Weather weather) {
+        putString("NowTmp", weather.now.tmp);
+        putString("aqi", weather.aqi.city.aqi);
+        putString("qlty", weather.aqi.city.qlty);
+        putString("pm25", weather.aqi.city.pm25);
+        putString("WindDir", weather.now.wind.dir);
+        putString("WindSc", weather.now.wind.sc);
+        //概率后面记得加“%”
+        putString("RainPop", weather.dailyForecast.get(0).pop);
+    }
+
+    private static void saveWind(Weather weather) {
+        putString("day1Wind", weather.dailyForecast.get(0).wind.spd);
+        putString("day2Wind", weather.dailyForecast.get(1).wind.spd);
+        putString("day3Wind", weather.dailyForecast.get(2).wind.spd);
+        putString("day4Wind", weather.dailyForecast.get(3).wind.spd);
+        putString("day5Wind", weather.dailyForecast.get(4).wind.spd);
+        putString("day6Wind", weather.dailyForecast.get(5).wind.spd);
+        putString("day7Wind", weather.dailyForecast.get(6).wind.spd);
+    }
+
+    private static void saveHumidity(Weather weather) {
+        putString("day1Hum", weather.dailyForecast.get(0).hum);
+        putString("day2Hum", weather.dailyForecast.get(1).hum);
+        putString("day3Hum", weather.dailyForecast.get(2).hum);
+        putString("day4Hum", weather.dailyForecast.get(3).hum);
+        putString("day5Hum", weather.dailyForecast.get(4).hum);
+        putString("day6Hum", weather.dailyForecast.get(5).hum);
+        putString("day7Hum", weather.dailyForecast.get(6).hum);
     }
 
     private static void saveSuggestions(Weather weather) {

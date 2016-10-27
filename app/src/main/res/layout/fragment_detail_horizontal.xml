@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textSize="80sp"
-        android:textColor="#ffffffff"
+        android:textColor="#000000"
         android:text="23°"/>
 
     <com.example.ldy.weiyuweather.Utils.SquareFrameLayout

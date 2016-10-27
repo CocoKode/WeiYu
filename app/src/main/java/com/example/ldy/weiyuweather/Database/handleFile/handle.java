@@ -41,7 +41,7 @@ public class handle {
                     String line = "";
                     while ((line = reader.readLine()) != null) {
                         String[] cityInfo = line.trim().split(",");
-                        if (cityInfo != null && cityInfo.length > 0) {
+                        if (cityInfo.length > 0) {
                             String cityID = cityInfo[0];
                             String citySpell = cityInfo[1];
                             String cityName = cityInfo[2];

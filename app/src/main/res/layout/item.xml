@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 tools:src="@drawable/midnightinthevalley2"
                 android:adjustViewBounds="true"
-                />
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/weather_item"

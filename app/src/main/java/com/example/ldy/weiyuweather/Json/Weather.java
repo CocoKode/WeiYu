@@ -10,7 +10,7 @@ import java.util.List;
  * gson解析的实体类
  */
 public class Weather implements Serializable{
-    @SerializedName("aqi") public AqiEntity api;
+    @SerializedName("aqi") public AqiEntity aqi;
 
     @SerializedName("basic") public BasicEntity basic;
 

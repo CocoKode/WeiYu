@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!--文字颜色-->
+    <color name="text_color">#ffffff</color>
+
+    <!--卡片背景颜色-->
+    <color name="card_background">#000000</color>
 </resources>

@@ -27,11 +27,11 @@ public class TablePagerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         String[] data = new String[] {
-            "折线图",
+            "当前天气",
+            "一周天气",
             "风力",
             "湿度",
-            "日出日落",
-            "其他"
+            "日出日落"
         };
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);

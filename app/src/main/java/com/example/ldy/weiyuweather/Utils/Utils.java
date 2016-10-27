@@ -4,17 +4,21 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telecom.CallScreeningService;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.ldy.weiyuweather.R;
 import com.thbs.skycons.library.CloudRainView;
+import com.thbs.skycons.library.CloudView;
 import com.thbs.skycons.library.SkyconView;
 import com.thbs.skycons.library.SunView;
 import com.thbs.skycons.library.WindView;
 
+import java.io.InterruptedIOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -41,6 +45,9 @@ public class Utils {
         switch (weather) {
             case "晴":
                 icon = new SunView(context);
+                break;
+            case "多云":
+                icon = new CloudView(context);
                 break;
             default:
                 icon = new CloudRainView(context);
@@ -161,33 +168,64 @@ public class Utils {
         dayForWeek = c.get(Calendar.DAY_OF_WEEK);
         switch (dayForWeek) {
             case 1:
-                week = "星期日";
+                week = "周日";
                 break;
             case 2:
-                week = "星期一";
+                week = "周一";
                 break;
             case 3:
-                week = "星期二";
+                week = "周二";
                 break;
             case 4:
-                week = "星期三";
+                week = "周三";
                 break;
             case 5:
-                week = "星期四";
+                week = "周四";
                 break;
             case 6:
-                week = "星期五";
+                week = "周五";
                 break;
             case 7:
-                week = "星期六";
+                week = "周六";
                 break;
         }
         return week;
+    }
+
+    //得到屏幕宽度
+    public static int getScreenWidth(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        return wm.getDefaultDisplay().getWidth();
     }
 
     //转换单位
     public static int dip2px(Context context, float dipValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
+    }
+    //获得文字大小
+    public static int getSp(Context context, float value) {
+        return (int) TypedValue
+                .applyDimension(TypedValue.COMPLEX_UNIT_SP, value, context.getResources()
+                        .getDisplayMetrics());
+    }
+
+    //找出最低温度
+    public static int minTmp(float[] mTmp) {
+        float min = mTmp[0];
+        for (float tmp : mTmp) {
+            if (min > tmp)
+                min = tmp;
+        }
+        return (int)min;
+    }
+    //找出最高温度
+    public static int maxTmp(float[] mTmp) {
+        float max = mTmp[0];
+        for (float tmp : mTmp) {
+            if (max < tmp)
+                max = tmp;
+        }
+        return (int)max;
     }
 }

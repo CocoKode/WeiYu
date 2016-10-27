@@ -14,12 +14,12 @@
     app:cardBackgroundColor="#00a2dc">
 
     <RelativeLayout
-        android:id="@+id/chart_layout"
+        android:id="@+id/sun_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/table_title"
+            android:id="@+id/sun_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -27,11 +27,11 @@
             android:textSize="30sp"
             tools:text="折线图"/>
 
-        <com.db.chart.view.LineChartView
-            android:id="@+id/tmp_chart"
+        <com.example.ldy.weiyuweather.Utils.SunRiseDownView
+            android:id="@+id/sun_view"
             android:layout_width="300dp"
-            android:layout_height="150dp"
-            android:layout_below="@id/table_title"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sun_title"
             android:layout_centerHorizontal="true"
             android:padding="10dp"
             />

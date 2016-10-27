@@ -2,20 +2,15 @@ package com.example.ldy.weiyuweather.Screens;
 
 import android.graphics.Color;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.ldy.weiyuweather.Adapters.mainAdapter;
-import com.example.ldy.weiyuweather.Base.ChangeCityEvent;
-import com.example.ldy.weiyuweather.Base.SimpleSubscriber;
 import com.example.ldy.weiyuweather.Json.Weather;
 import com.example.ldy.weiyuweather.NetWork.RetrofitSingleton;
 import com.example.ldy.weiyuweather.R;
-import com.example.ldy.weiyuweather.Utils.RxBus;
 import com.example.ldy.weiyuweather.Utils.SharedPreferenceUtil;
 import com.example.ldy.weiyuweather.Utils.ToastUtil;
 import com.gigamole.navigationtabbar.ntb.NavigationTabBar;
-import com.thbs.skycons.library.Cloud;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import java.util.ArrayList;
@@ -24,7 +19,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 
 public class MainActivity extends RxAppCompatActivity {
     @Bind(R.id.vp_main)
@@ -126,7 +120,7 @@ public class MainActivity extends RxAppCompatActivity {
             @Override
             public void onNext(Weather weather) {
                 mWeather.status = weather.status;
-                mWeather.api = weather.api;
+                mWeather.aqi = weather.aqi;
                 mWeather.basic = weather.basic;
                 mWeather.suggestion = weather.suggestion;
                 mWeather.now = weather.now;

@@ -22,7 +22,7 @@ public class HorizontalPagerAdapter extends PagerAdapter{
                     R.drawable.midnightinthevalley2,
                     SharedPreferenceUtil.getInstance().getString("day1", "未知"),
                     SharedPreferenceUtil.getInstance().getString("day1Info", "未知"),
-                    SharedPreferenceUtil.getInstance().getString("day1NowTmp", "未知")
+                    SharedPreferenceUtil.getInstance().getString("NowTmp", "未知")
             ),
             new Utils.LibraryObject(
                     R.drawable.midnightinthevalley2,

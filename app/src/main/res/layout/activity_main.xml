@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffffff"
+    android:background="#d1d1ed"
     android:orientation="vertical"
     tools:context=".Screens.MainActivity">
 
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9"
-        android:background="#ffffffff">
+        android:background="#d1d1ed">
 
         <com.example.ldy.weiyuweather.Utils.NonScrollableViewPager
             android:id="@+id/vp_main"
