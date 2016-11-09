@@ -5,13 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="3dp"
+    app:cardElevation="5dp"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    app:cardBackgroundColor="#00a2dc">
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    app:cardBackgroundColor="@color/card_background">
 
     <RelativeLayout
         android:id="@+id/chart_layout"
@@ -23,17 +22,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:textColor="#ffffffff"
-            android:textSize="30sp"
+            android:textColor="@color/table_text_color"
+            android:textSize="20sp"
             tools:text="折线图"/>
 
         <com.db.chart.view.LineChartView
             android:id="@+id/tmp_chart"
-            android:layout_width="300dp"
-            android:layout_height="150dp"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
             android:layout_below="@id/table_title"
             android:layout_centerHorizontal="true"
-            android:padding="10dp"
+            android:padding="20dp"
             />
     </RelativeLayout>
 

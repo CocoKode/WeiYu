@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- custom theme -->
+    <!-- http://www.jianshu.com/p/0acc12c29c1b -->
+    <style name="TranslucentTheme" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+</resources>

@@ -1,45 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#d1d1ed"
-    android:orientation="vertical"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:background="@mipmap/background"
     tools:context=".Screens.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:padding="8dp"
-        android:text="There should be a search bar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="vertical">
+
+        <com.example.ldy.weiyuweather.Utils.ViewPagerSwipeRefreshLayout
+            android:id="@+id/sw_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9"
+            android:background="@color/activity_background">
+
+            <com.example.ldy.weiyuweather.Utils.NonScrollableViewPager
+                android:id="@+id/vp_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </com.example.ldy.weiyuweather.Utils.ViewPagerSwipeRefreshLayout>
+
+        <com.gigamole.navigationtabbar.ntb.NavigationTabBar
+            android:id="@+id/ntb_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:ntb_bg_color="#605271"
+            app:ntb_title_size="15sp"
+            app:ntb_badged="false"
+            app:ntb_title_mode="active"
+            app:ntb_titled="true"
+            app:ntb_scaled="true"
+            />
+    </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="9"
-        android:background="#d1d1ed">
+        android:layout_height="wrap_content">
 
-        <com.example.ldy.weiyuweather.Utils.NonScrollableViewPager
-            android:id="@+id/vp_main"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="?attr/actionBarSize"
+            android:paddingTop="5dp"
+            android:background="@color/toolbar_color">
 
+            <TextView
+                android:id="@+id/toolbar_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="8dp"
+                android:textColor="#ffffff"
+                android:textSize="20sp"
+                android:text="西安" />
+        </android.support.v7.widget.Toolbar>
+
+
+        <com.miguelcatalan.materialsearchview.MaterialSearchView
+            android:id="@+id/toolbar_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
     </FrameLayout>
-    
-    <com.gigamole.navigationtabbar.ntb.NavigationTabBar
-        android:id="@+id/ntb_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        app:ntb_bg_color="#605271"
-        app:ntb_title_size="15sp"
-        app:ntb_badged="false"
-        app:ntb_title_mode="active"
-        app:ntb_titled="true"
-        app:ntb_scaled="true"
-        />
-</LinearLayout>
+</FrameLayout>

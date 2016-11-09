@@ -1,6 +1,6 @@
 package com.example.ldy.weiyuweather.Base;
 
-import com.example.ldy.weiyuweather.Json.WeatherApi;
+import com.example.ldy.weiyuweather.Gson.WeatherApi;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;

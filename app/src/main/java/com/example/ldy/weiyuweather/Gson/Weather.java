@@ -1,4 +1,4 @@
-package com.example.ldy.weiyuweather.Json;
+package com.example.ldy.weiyuweather.Gson;
 
 import com.google.gson.annotations.SerializedName;
 

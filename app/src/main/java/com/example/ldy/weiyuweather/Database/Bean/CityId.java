@@ -9,14 +9,15 @@ import com.orm.dsl.Table;
  */
 @Table (name = "city_id")
 public class CityId extends SugarRecord {
-    String citySpell;
-    String cityName;
-    String cityId;
+    public String citySpell;
+    public String cityName;
+    public String cityId;
 
     //默认的必要构造方法
     public CityId() {}
 
     public CityId(String cityId, String citySpell, String cityName) {
+        super();
         this.citySpell = citySpell;
         this.cityName = cityName;
         this.cityId = cityId;

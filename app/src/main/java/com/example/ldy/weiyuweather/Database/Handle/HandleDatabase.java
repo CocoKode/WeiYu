@@ -1,4 +1,4 @@
-package com.example.ldy.weiyuweather.Database.handleFile;
+package com.example.ldy.weiyuweather.Database.Handle;
 
 import android.content.Context;
 import android.util.Log;
@@ -20,20 +20,22 @@ import rx.schedulers.Schedulers;
  * Created by LDY on 2016/10/7.
  * 使用RxJava将文件中的部分数据存入数据库中
  */
-public class handle {
+public class HandleDatabase {
     private static final String FILE_NAME = "CityId";
-    private static final String DB_NAME = "city_id";
+    private static final String DB_NAME = "citydb.db";
 
-    private static void handleWithRx (final Context context) {
+    public static void handleWithRx (final Context context) {
         File file = context.getDatabasePath(DB_NAME);
         if (file.exists()) {
-            Log.d("handle", "数据库已存在");
+            Log.d("HandleDatabase", "数据库已存在");
+            return;
         }
 
         Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 try {
+                    //Log.d("HandleDatabase", "打开文件");
                     BufferedReader reader = null;
                     InputStream in = context.getAssets().open(FILE_NAME);
                     reader = new BufferedReader(new InputStreamReader(in, "utf-8"));
@@ -46,7 +48,7 @@ public class handle {
                             String citySpell = cityInfo[1];
                             String cityName = cityInfo[2];
 
-                            //依次存入数据库
+                            //Log.d("HandleDatabase", "依次存入数据库");
                             CityId city = new CityId(cityID, citySpell, cityName);
                             city.save();
                         }
@@ -64,7 +66,7 @@ public class handle {
                 .subscribe(new Observer<String>() {
                     @Override
                     public void onCompleted() {
-                        Log.d("handle", "传输完成");
+                        Log.d("HandleDatabase", "传输完成");
                     }
 
                     @Override

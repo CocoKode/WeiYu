@@ -8,4 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- custom theme -->
+    <style name="TranslucentTheme" parent="AppTheme">
+    </style>
+
+    <!-- open theme -->
+    <style name="openTheme" parent="TranslucentTheme">
+
+        <item name="android:windowBackground">@mipmap/open_back</item>
+    </style>
 </resources>

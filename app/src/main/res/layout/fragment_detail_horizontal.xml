@@ -5,15 +5,20 @@
     android:layout_height="match_parent"
     android:clipChildren="false">
 
-    <TextView
-        android:id="@+id/test_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="80sp"
-        android:textColor="#000000"
-        android:text="23°"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@color/toolbar_color">
+
+        <TextView
+            android:id="@+id/detail_tmp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="80sp"
+            android:textColor="@color/detail_tmp_color"
+            android:text="23°"/>
+    </FrameLayout>
 
     <com.example.ldy.weiyuweather.Utils.SquareFrameLayout
         android:layout_width="match_parent"
@@ -31,7 +36,7 @@
             app:icvp_max_page_scale="1.0"
             app:icvp_min_page_scale="0.7"
             app:icvp_medium_scaled="true"
-            app:icvp_min_page_scale_offset="0dp"/>
+            app:icvp_min_page_scale_offset="-50dp"/>
 
 
     </com.example.ldy.weiyuweather.Utils.SquareFrameLayout>

@@ -4,12 +4,13 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
 
+import com.orm.SugarApp;
 import com.orm.SugarContext;
 
 /**
  * Created by LDY on 2016/10/7.
  */
-public class BaseApplication extends Application {
+public class BaseApplication extends SugarApp {
     public static String cacheDir;
     private static Context mAppContext = null;
 

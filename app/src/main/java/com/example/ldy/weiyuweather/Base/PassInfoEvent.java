@@ -1,6 +1,6 @@
 package com.example.ldy.weiyuweather.Base;
 
-import com.example.ldy.weiyuweather.Json.Weather;
+import com.example.ldy.weiyuweather.Gson.Weather;
 
 /**
  * Created by LDY on 2016/10/17.

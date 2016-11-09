@@ -2,10 +2,12 @@ package com.example.ldy.weiyuweather.Adapters;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.ldy.weiyuweather.Gson.Weather;
 import com.example.ldy.weiyuweather.R;
 import com.example.ldy.weiyuweather.Utils.SharedPreferenceUtil;
 import com.example.ldy.weiyuweather.Utils.Utils;
@@ -16,48 +18,67 @@ import static com.example.ldy.weiyuweather.Utils.Utils.setupDetailItem;
  * Created by LDY on 2016/10/1.
  */
 public class DetailPagerAdapter extends PagerAdapter {
-    private final Utils.DetailLibraryObject[] DETAIL_LIBRARIES = new Utils.DetailLibraryObject[] {
-            new Utils.DetailLibraryObject(
-                    R.drawable.clothes,
-                    "穿衣指数",
-                    SharedPreferenceUtil.getInstance().getString("dressTxt", "未知")
-            ),
-            new Utils.DetailLibraryObject(
-                    R.drawable.uv,
-                    "紫外线强度",
-                    SharedPreferenceUtil.getInstance().getString("uvTxt", "未知")
-            ),
-            new Utils.DetailLibraryObject(
-                    R.drawable.flu,
-                    "感冒指数",
-                    SharedPreferenceUtil.getInstance().getString("fluTxt", "未知")
-            ),
-            new Utils.DetailLibraryObject(
-                    R.drawable.car,
-                    "洗车指数",
-                    SharedPreferenceUtil.getInstance().getString("carTxt", "未知")
-            ),
-            new Utils.DetailLibraryObject(
-                    R.drawable.sport,
-                    "运动指数",
-                    SharedPreferenceUtil.getInstance().getString("sportTxt", "未知")
-            ),
-            new Utils.DetailLibraryObject(
-                    R.drawable.travel,
-                    "旅游指数",
-                    SharedPreferenceUtil.getInstance().getString("travelTxt", "未知")
-            )
-    };
+    private Weather mWeather = new Weather();
+
+    private Utils.DetailLibraryObject[] DETAIL_LIBRARIES;
 
     private LayoutInflater mLayoutInflater;
 
-    public DetailPagerAdapter(final Context context, final boolean isTwoWay) {
+    public DetailPagerAdapter(final Context context, final Weather weather) {
         mLayoutInflater = LayoutInflater.from(context);
+        mWeather = weather;
+        initSuggestion();
+    }
+
+    private void initSuggestion() {
+        if (mWeather.status == null) {
+            Log.d("initSuggestion", "未接收");
+            return;
+        }
+
+        DETAIL_LIBRARIES = new Utils.DetailLibraryObject[] {
+                new Utils.DetailLibraryObject(
+                        R.drawable.clothes,
+                        R.mipmap.clothes,
+                        "穿衣指数",
+                        mWeather.suggestion.drsg.txt
+                ),
+                new Utils.DetailLibraryObject(
+                        R.drawable.uv,
+                        R.mipmap.uv,
+                        "防晒指数",
+                        mWeather.suggestion.uv.txt
+                ),
+                new Utils.DetailLibraryObject(
+                        R.drawable.flu,
+                        R.mipmap.flu,
+                        "感冒指数",
+                        mWeather.suggestion.flu.txt
+                ),
+                new Utils.DetailLibraryObject(
+                        R.drawable.car,
+                        R.mipmap.carwash,
+                        "洗车指数",
+                        mWeather.suggestion.cw.txt
+                ),
+                new Utils.DetailLibraryObject(
+                        R.drawable.sport,
+                        R.mipmap.sport,
+                        "运动指数",
+                        mWeather.suggestion.sport.txt
+                ),
+                new Utils.DetailLibraryObject(
+                        R.drawable.travel,
+                        R.mipmap.travel,
+                        "旅游指数",
+                        mWeather.suggestion.trav.txt
+                )
+        };
     }
 
     @Override
     public int getCount() {
-        return DETAIL_LIBRARIES.length;
+        return mWeather.status == null ? 0 : DETAIL_LIBRARIES.length;
     }
 
     @Override

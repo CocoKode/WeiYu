@@ -1,8 +1,14 @@
 package com.example.ldy.weiyuweather.Adapters;
 
+import android.animation.PropertyValuesHolder;
+import android.content.Context;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +18,10 @@ import com.db.chart.Tools;
 import com.db.chart.model.LineSet;
 import com.db.chart.model.Point;
 import com.db.chart.renderer.AxisRenderer;
+import com.db.chart.tooltip.Tooltip;
+import com.db.chart.view.ChartView;
 import com.db.chart.view.LineChartView;
+import com.example.ldy.weiyuweather.Gson.Weather;
 import com.example.ldy.weiyuweather.R;
 import com.example.ldy.weiyuweather.Utils.SharedPreferenceUtil;
 import com.example.ldy.weiyuweather.Utils.SunRiseDownView;
@@ -26,56 +35,85 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int CHART_ITEM = 1;
     private static final int SUN_VIEW = 2;
 
+    private Context mContext;
     private String[] mData;
+    private static Paint gridPaint = new Paint();
+    private Weather mWeather = new Weather();
 
     private String[] mNoLabel = {"", "", "", "", "", "", ""};
-    private String[] mWeekLabel = {
-            SharedPreferenceUtil.getInstance().getString("day1", "未知"),
-            SharedPreferenceUtil.getInstance().getString("day2", "未知"),
-            SharedPreferenceUtil.getInstance().getString("day3", "未知"),
-            SharedPreferenceUtil.getInstance().getString("day4", "未知"),
-            SharedPreferenceUtil.getInstance().getString("day5", "未知"),
-            SharedPreferenceUtil.getInstance().getString("day6", "未知"),
-            SharedPreferenceUtil.getInstance().getString("day7", "未知")
-    };
-    private float[] mMaxTmpValue = {
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day1MaxTmp", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day2MaxTmp", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day3MaxTmp", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day4MaxTmp", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day5MaxTmp", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day6MaxTmp", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day7MaxTmp", "0"))
-    };
-    private float[] mMinTmpValue = {
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day1MinTmp", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day2MinTmp", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day3MinTmp", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day4MinTmp", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day5MinTmp", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day6MinTmp", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day7MinTmp", "0")),
-    };
-    private float[] mWindValue = {
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day1Wind", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day2Wind", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day3Wind", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day4Wind", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day5Wind", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day6Wind", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day7Wind", "0"))
-    };
-    private float[] mHumValue = {
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day1Hum", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day2Hum", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day3Hum", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day4Hum", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day5Hum", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day6Hum", "0")),
-            Float.parseFloat(SharedPreferenceUtil.getInstance().getString("day7Hum", "0"))
-    };
-    public TablePagerAdapter(String[] data) {
+    private String[] mWeekLabel;
+    private float[] mMaxTmpValue;
+    private float[] mMinTmpValue;
+    private float[] mWindValue;
+    private float[] mHumValue;
+
+    public TablePagerAdapter(String[] data, Weather weather, Context context) {
         mData = data;
+        mWeather = weather;
+        mContext = context;
+        initWeatherData();
+
+        gridPaint.setColor(Color.parseColor("#F7B151"));
+        gridPaint.setStyle(Paint.Style.STROKE);
+        gridPaint.setAntiAlias(true);
+        gridPaint.setStrokeWidth(Tools.fromDpToPx(1));
+        gridPaint.setPathEffect(new DashPathEffect(new float[]{20, 20}, 10));
+    }
+
+    private void initWeatherData() {
+        if (mWeather.status == null) {
+            Log.d("initWeatherData", "mweather为空");
+            return;
+        }else {
+            Log.d("initWeatherData", "mweather不为空" + mWeather.basic.city);
+            Log.d("initweatherdata", "daily size =" + mWeather.dailyForecast.size());
+        }
+
+        mWeekLabel = new String[]{
+                "今日",
+                "明日",
+                Utils.dayForWeek(mWeather.dailyForecast.get(2).date),
+                Utils.dayForWeek(mWeather.dailyForecast.get(3).date),
+                Utils.dayForWeek(mWeather.dailyForecast.get(4).date),
+                Utils.dayForWeek(mWeather.dailyForecast.get(5).date),
+                Utils.dayForWeek(mWeather.dailyForecast.get(6).date)
+        };
+        mMaxTmpValue = new float[]{
+                Float.parseFloat(mWeather.dailyForecast.get(0).tmp.max),
+                Float.parseFloat(mWeather.dailyForecast.get(1).tmp.max),
+                Float.parseFloat(mWeather.dailyForecast.get(2).tmp.max),
+                Float.parseFloat(mWeather.dailyForecast.get(3).tmp.max),
+                Float.parseFloat(mWeather.dailyForecast.get(4).tmp.max),
+                Float.parseFloat(mWeather.dailyForecast.get(5).tmp.max),
+                Float.parseFloat(mWeather.dailyForecast.get(6).tmp.max),
+        };
+        mMinTmpValue = new float[]{
+                Float.parseFloat(mWeather.dailyForecast.get(0).tmp.min),
+                Float.parseFloat(mWeather.dailyForecast.get(1).tmp.min),
+                Float.parseFloat(mWeather.dailyForecast.get(2).tmp.min),
+                Float.parseFloat(mWeather.dailyForecast.get(3).tmp.min),
+                Float.parseFloat(mWeather.dailyForecast.get(4).tmp.min),
+                Float.parseFloat(mWeather.dailyForecast.get(5).tmp.min),
+                Float.parseFloat(mWeather.dailyForecast.get(6).tmp.min),
+        };
+        mWindValue = new float[]{
+                Float.parseFloat(mWeather.dailyForecast.get(0).wind.spd),
+                Float.parseFloat(mWeather.dailyForecast.get(1).wind.spd),
+                Float.parseFloat(mWeather.dailyForecast.get(2).wind.spd),
+                Float.parseFloat(mWeather.dailyForecast.get(3).wind.spd),
+                Float.parseFloat(mWeather.dailyForecast.get(4).wind.spd),
+                Float.parseFloat(mWeather.dailyForecast.get(5).wind.spd),
+                Float.parseFloat(mWeather.dailyForecast.get(6).wind.spd),
+        };
+        mHumValue = new float[]{
+                Float.parseFloat(mWeather.dailyForecast.get(0).hum),
+                Float.parseFloat(mWeather.dailyForecast.get(1).hum),
+                Float.parseFloat(mWeather.dailyForecast.get(2).hum),
+                Float.parseFloat(mWeather.dailyForecast.get(3).hum),
+                Float.parseFloat(mWeather.dailyForecast.get(4).hum),
+                Float.parseFloat(mWeather.dailyForecast.get(5).hum),
+                Float.parseFloat(mWeather.dailyForecast.get(6).hum),
+        };
     }
 
     @Override
@@ -90,6 +128,7 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (mWeather.status == null) return;
         if (holder instanceof nowWeatherViewHolder)
             bindNowWeatherViewHolder((nowWeatherViewHolder)holder, position);
         else if (holder instanceof  chartViewHolder)
@@ -100,13 +139,13 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private void bindNowWeatherViewHolder(nowWeatherViewHolder holder, int position) {
         holder.nowTitle.setText(mData[position].toString());
-        holder.nowTmp.setText(SharedPreferenceUtil.getInstance().getString("NowTmp", "未知"));
-        holder.airAqi.setText(SharedPreferenceUtil.getInstance().getString("aqi", "未知"));
-        holder.airQlty.setText(SharedPreferenceUtil.getInstance().getString("qlty", "未知"));
-        holder.pm25.setText(SharedPreferenceUtil.getInstance().getString("pm25", "未知"));
-        holder.windDir.setText(SharedPreferenceUtil.getInstance().getString("WindDir", "未知"));
-        holder.windSc.setText(SharedPreferenceUtil.getInstance().getString("WindSc", "未知"));
-        holder.rainPop.setText(SharedPreferenceUtil.getInstance().getString("RainPop", "未知"));
+        holder.nowTmp.setText(String.format("%s℃", mWeather.now.tmp));
+        holder.airAqi.setText(mWeather.aqi.city.aqi);
+        holder.airQlty.setText(String.format("空气%s", mWeather.aqi.city.qlty));
+        holder.pm25.setText(mWeather.aqi.city.pm25);
+        holder.windDir.setText(mWeather.now.wind.dir);
+        holder.windSc.setText(String.format("%s级", mWeather.now.wind.sc));
+        holder.rainPop.setText(String.format("%s%%", mWeather.dailyForecast.get(0).pop));
     }
     private void bindChartViewHolder(chartViewHolder holder, int position) {
         holder.title.setText(mData[position].toString());
@@ -128,8 +167,8 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private void bindSunViewHolder(sunViewHolder holder, int position) {
         holder.sunTitle.setText(mData[position].toString());
         holder.sunView.setSunRiseDownTime(
-                SharedPreferenceUtil.getInstance().getString("sunRise", "05:00"),
-                SharedPreferenceUtil.getInstance().getString("sunSet", "18:46")
+                mWeather.dailyForecast.get(0).astro.sr,
+                mWeather.dailyForecast.get(0).astro.ss
         );
     }
 
@@ -145,6 +184,9 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     private void showTmpChart(LineChartView chartView) {
+
+        //chartView.setTooltips(mTip);
+
         LineSet maxDataset = new LineSet(mWeekLabel, mMaxTmpValue);
         maxDataset.setColor(Color.parseColor("#004f7f"))
                 .setThickness(Tools.fromDpToPx(3))
@@ -177,50 +219,68 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         int max = Utils.maxTmp(mMaxTmpValue);
         chartView.setBorderSpacing(Tools.fromDpToPx(0))
                 .setXLabels(AxisRenderer.LabelPosition.OUTSIDE)
-                .setLabelsColor(Color.parseColor("#ffffff"))
+                .setLabelsColor(Color.parseColor("#000000"))
                 .setYLabels(AxisRenderer.LabelPosition.NONE)
                 .setXAxis(false)
                 .setYAxis(false)
                 .setAxisBorderValues(min-5, max+5);
+
+        //mTip.
+        //chartView.showTooltip(mTip, true);
+
         chartView.show();
     }
 
     private void showWindChart(LineChartView chartView) {
-        LineSet dataset = new LineSet(mNoLabel, mWindValue);
-        dataset.setColor(Color.parseColor("#53c1bd"))
+        LineSet dataset = new LineSet(mWeekLabel, mWindValue);
+        dataset.setColor(Color.parseColor("#C97ED7"))
                 .setSmooth(true)
-                .setFill(Color.parseColor("#3d6c73"))
+                .setThickness(Tools.fromDpToPx(0))
+                .setFill(Color.parseColor("#D1D0D2"))
                 .setGradientFill(
-                        new int[] {Color.parseColor("#364d5a"), Color.parseColor("#3f7178")}, null
+                        new int[] {Color.parseColor("#C97ED7"), Color.parseColor("#D1D0D2")}, null
                 );
         chartView.addData(dataset);
 
+        int maxWind = Utils.maxTmp(mWindValue);
         chartView.setBorderSpacing(1)
-                .setXLabels(AxisRenderer.LabelPosition.NONE)
-                .setYLabels(AxisRenderer.LabelPosition.NONE)
+                .setAxisBorderValues(0, maxWind)
+                .setAxisLabelsSpacing(Tools.fromDpToPx(5))
+                .setXLabels(AxisRenderer.LabelPosition.OUTSIDE)
+                .setLabelsColor(Color.parseColor("#000000"))
+                .setYLabels(AxisRenderer.LabelPosition.OUTSIDE)
                 .setXAxis(false)
                 .setYAxis(false)
                 .setBorderSpacing(Tools.fromDpToPx(0));
+
+        //chartView.setGrid(ChartView.GridType.HORIZONTAL, gridPaint);
 
         chartView.show();
     }
 
     private void showHumChart(LineChartView chartView) {
-        LineSet dataset = new LineSet(mNoLabel, mHumValue);
-        dataset.setColor(Color.parseColor("#53c1bd"))
+        LineSet dataset = new LineSet(mWeekLabel, mHumValue);
+        dataset.setColor(Color.parseColor("#4A38B4"))
                 .setSmooth(true)
-                .setFill(Color.parseColor("#3d6c73"))
+                .setThickness(0)
+                .setFill(Color.parseColor("#D1D0D2"))
                 .setGradientFill(
-                        new int[] {Color.parseColor("#364d5a"), Color.parseColor("#3f7178")}, null
+                        new int[] {Color.parseColor("#4A38B4"), Color.parseColor("#9966CA")}, null
                 );
         chartView.addData(dataset);
 
+        int maxHum = Utils.maxTmp(mHumValue);
         chartView.setBorderSpacing(1)
-                .setXLabels(AxisRenderer.LabelPosition.NONE)
-                .setYLabels(AxisRenderer.LabelPosition.NONE)
+                .setAxisBorderValues(0, maxHum)
+                .setAxisLabelsSpacing(Tools.fromDpToPx(5))
+                .setXLabels(AxisRenderer.LabelPosition.OUTSIDE)
+                .setLabelsColor(Color.parseColor("#000000"))
+                .setYLabels(AxisRenderer.LabelPosition.OUTSIDE)
                 .setXAxis(false)
                 .setYAxis(false)
                 .setBorderSpacing(Tools.fromDpToPx(0));
+
+        //chartView.setGrid(ChartView.GridType.HORIZONTAL, gridPaint);
 
         chartView.show();
     }

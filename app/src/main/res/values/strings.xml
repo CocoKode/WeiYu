@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">WeiyuWeather</string>
+
+    <!--bundle传递key-->
+    <string name="BUNDLE_KEY">weather</string>
+
+    <!--显示日出文字-->
+    <string name="sunrise_txt">日出 %1$s</string>
+
+    <!--显示日落文字-->
+    <string name="sunset_txt">日落 %1$s</string>
 </resources>

@@ -4,13 +4,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.example.ldy.weiyuweather.Base.BaseApplication;
-import com.example.ldy.weiyuweather.Json.Weather;
+import com.example.ldy.weiyuweather.Gson.Weather;
 
 /**
  * Created by LDY on 2016/10/14.
  */
 public class SharedPreferenceUtil {
     private static final String CITY_ID = "城市代码";
+    private static final String CITY_NAME = "城市名称";
+    private static final String CITY_LON = "lon";
+    private static final String CITY_LAT = "lat";
 
     private static  SharedPreferences mSpfs;
 
@@ -81,7 +84,7 @@ public class SharedPreferenceUtil {
         putString("aqi", weather.aqi.city.aqi);
         putString("qlty", weather.aqi.city.qlty);
         putString("pm25", weather.aqi.city.pm25);
-        putString("WindDir", weather.now.wind.dir);
+        putString("WindDir", weather.aqi.city.pm25);
         putString("WindSc", weather.now.wind.sc);
         //概率后面记得加“%”
         putString("RainPop", weather.dailyForecast.get(0).pop);
@@ -117,11 +120,31 @@ public class SharedPreferenceUtil {
     }
 
     public void setCityId(String cityId) {
-        mSpfs.edit().putString(CITY_ID, cityId).apply();
+        mSpfs.edit().putString(CITY_ID, cityId).commit();
     }
     public String getCityId() {
         return mSpfs.getString(CITY_ID, "CN101110101");
     }
+    public void setCityName(String cityName) {
+        mSpfs.edit().putString(CITY_NAME, cityName).commit();
+    }
+    public String getCityName() {
+        return mSpfs.getString(CITY_NAME, "西安");
+    }
+
+    public String getCityLon() {
+        return mSpfs.getString(CITY_LON, "108.969000");
+    }
+    public void setCityLon(String lon) {
+        mSpfs.edit().putString(CITY_LON, lon).commit();
+    }
+    public String getCityLat() {
+        return mSpfs.getString(CITY_LAT, "34.285000");
+    }
+    public void setCityLat(String lat) {
+        mSpfs.edit().putString(CITY_LAT, lat).commit();
+    }
+
 
     public static void putInt(String key, int value) {
         mSpfs.edit().putInt(key, value).apply();

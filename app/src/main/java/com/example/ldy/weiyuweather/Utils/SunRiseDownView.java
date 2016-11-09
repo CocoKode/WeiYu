@@ -10,6 +10,8 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.example.ldy.weiyuweather.R;
+
 import java.util.Calendar;
 
 /**
@@ -75,8 +77,8 @@ public class SunRiseDownView extends View{
 
         //无锯齿
         paint.setAntiAlias(true);
-        //画笔颜色为白色
-        paint.setColor(Color.WHITE);
+        //画笔颜色
+        paint.setColor(getResources().getColor(R.color.dash_paint_color));
         //线条宽度
         paint.setStrokeWidth((float) 5.0);
         //设置为空心
@@ -115,6 +117,7 @@ public class SunRiseDownView extends View{
         canvas.drawPath(path, paint);
 
         //绘制文字
+        paint.setColor(getResources().getColor(R.color.txt_paint_color));
         paint.setStyle(Paint.Style.FILL);
         paint.setAlpha(255);
         paint.setTextSize(Utils.getSp(mContext, 12));
@@ -122,13 +125,13 @@ public class SunRiseDownView extends View{
         paint.setTextAlign(Paint.Align.CENTER);
 
         canvas.drawText(
-                String.format("日出 %1$s", sunRiseTime),
+                String.format(getResources().getString(R.string.sunrise_txt), sunRiseTime),
                 center - radius + getFitSize(125),
                 height - (height - radius - (center - radius)) - getFitSize(15),
                 paint
         );
         canvas.drawText(
-                String.format("日落 %1$s", sunDownTime),
+                String.format(getResources().getString(R.string.sunset_txt), sunDownTime),
                 center + radius - getFitSize(125),
                 height - (height - radius - (center - radius)) - getFitSize(15),
                 paint

@@ -3,7 +3,10 @@ package com.example.ldy.weiyuweather.NetWork;
 import com.example.ldy.weiyuweather.Base.ApiInterface;
 import com.example.ldy.weiyuweather.Base.BaseApplication;
 import com.example.ldy.weiyuweather.Base.HeWeather;
-import com.example.ldy.weiyuweather.Json.Weather;
+import com.example.ldy.weiyuweather.Base.WeeklyApiInterface;
+import com.example.ldy.weiyuweather.Decode.DecodeStringConverterFactory;
+import com.example.ldy.weiyuweather.Gson.Weather;
+import com.example.ldy.weiyuweather.Gson.WholeWeather;
 import com.example.ldy.weiyuweather.Utils.RxUtils;
 import com.example.ldy.weiyuweather.Utils.Utils;
 
@@ -30,12 +33,18 @@ public class RetrofitSingleton {
     private static Retrofit retrofit = null;
     private static OkHttpClient okHttpClient = null;
 
+    /*
+    private static WeeklyApiInterface weeklyApiInterface = null;
+    private static Retrofit retrofitWeekly = null;
+    private static Weather mWeather = new Weather();
+    */
+
     private void init() {
         initOkHttp();
-
         initRetrofit();
-
         apiService = retrofit.create(ApiInterface.class);
+
+        //weeklyApiInterface = retrofitWeekly.create(WeeklyApiInterface.class);
     }
 
     //单例
@@ -105,6 +114,15 @@ public class RetrofitSingleton {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
+
+        /*
+        retrofitWeekly = new Retrofit.Builder()
+                .baseUrl(weeklyApiInterface.HOST)
+                .client(okHttpClient)
+                .addConverterFactory(DecodeStringConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+        */
     }
 
     public Observable<Weather> fetchWeather(String city) {
@@ -115,9 +133,39 @@ public class RetrofitSingleton {
                         return Observable.error(new RuntimeException("查询次数用完噜"));
                     else if ("unknown city".equals(status))
                         return Observable.error(new RuntimeException(String.format("没有查到%s", city)));
+
                     return Observable.just(weatherApi);
                 })
-                .map(weatherApi1 -> weatherApi1.mHeWeatherDataService30.get(0))
+                .map(weatherAPI -> weatherAPI.mHeWeatherDataService30.get(0))
                 .compose(RxUtils.rxSchedulerHelper());
     }
+
+    /*封印
+    public Observable<WholeWeather> fetchWeather(String city) {
+        return apiService.mWeather(city, HeWeather.PERSONAL_KEY)
+                .flatMap(weatherApi -> {
+                    String status = weatherApi.mHeWeatherDataService30.get(0).status;
+                    if ("no more requests".equals(status))
+                        return Observable.error(new RuntimeException("查询次数用完噜"));
+                    else if ("unknown city".equals(status))
+                        return Observable.error(new RuntimeException(String.format("没有查到%s", city)));
+
+                    mWeather = weatherApi.mHeWeatherDataService30.get(0);
+                    String lon = mWeather.basic.lon;
+                    String lat = mWeather.basic.lat;
+                    return weeklyApiInterface.mWeeklyWeather(lon, lat);
+                })
+                .map(s -> {
+                    WholeWeather ww = Utils.saveWeeklyWeather(s);
+                    ww.weather = mWeather;
+                    return ww;
+                })
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<String> fetchWeeklyWeather(String lon, String lat) {
+        return weeklyApiInterface.mWeeklyWeather(lon, lat)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+    */
 }
