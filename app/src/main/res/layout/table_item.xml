@@ -5,35 +5,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/table_item"
     app:cardElevation="5dp"
+    app:cardCornerRadius="2dp"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
-    app:cardBackgroundColor="@color/card_background">
+    app:cardBackgroundColor="#25383C">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/chart_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/table_title_raw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:elevation="2dp"
+            tools:targetApi="lollipop">
+
+            <TextView
+                android:id="@+id/table_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_margin="16dp"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                tools:text="折线图"/>
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/table_title"
+            android:id="@+id/unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/table_text_color"
-            android:textSize="20sp"
-            tools:text="折线图"/>
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            tools:text="单位：千米每小时"/>
 
-        <com.db.chart.view.LineChartView
+        <com.example.ldy.weiyuweather.Utils.AddValueLinearChartView
             android:id="@+id/tmp_chart"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:layout_below="@id/table_title"
-            android:layout_centerHorizontal="true"
-            android:padding="20dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:chart_shadowDx="3dp"
+            app:chart_shadowDy="5dp"
+            app:chart_shadowRadius="2dp"
+            app:chart_shadowColor="#ffffff"
             />
-    </RelativeLayout>
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>

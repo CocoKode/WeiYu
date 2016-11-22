@@ -1,11 +1,11 @@
 package com.example.ldy.weiyuweather.Utils;
 
+import android.app.ActivityManager;
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.telecom.CallScreeningService;
-import android.text.Html;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.ldy.weiyuweather.Gson.WholeWeather;
 import com.example.ldy.weiyuweather.R;
 import com.thbs.skycons.library.CloudFogView;
 import com.thbs.skycons.library.CloudHvRainView;
@@ -26,14 +25,10 @@ import com.thbs.skycons.library.SkyconView;
 import com.thbs.skycons.library.SunView;
 import com.thbs.skycons.library.WindView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.InterruptedIOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by LDY on 2016/9/29.
@@ -45,16 +40,20 @@ public class Utils {
     public static void setupItem(final View view, final LibraryObject libraryObject, Context context) {
         final TextView tmp = (TextView) view.findViewById(R.id.tmp_item);
         tmp.setText(libraryObject.getTmp() + "°");
+        tmp.setTypeface(FontsUtil.getFont("fonts/FuturaLTBold.ttf", context));
 
         final TextView info = (TextView) view.findViewById(R.id.weather_item);
         String weather = libraryObject.getmInfo();
         info.setText(weather);
+        info.setTypeface(FontsUtil.getFont("fonts/WenYue-GuDianMingChaoTi-NC-W5.otf", context));
 
         final TextView date = (TextView) view.findViewById(R.id.txt_item);
         date.setText(libraryObject.getDate());
+        date.setTypeface(FontsUtil.getFont("fonts/WenYue-GuDianMingChaoTi-NC-W5.otf", context));
 
         final ImageView img = (ImageView) view.findViewById(R.id.img_item);
-        img.setImageResource(libraryObject.getRes());
+        //img.setImageResource(libraryObject.getRes());
+        ImageLoadUtil.load(context, libraryObject.getRes(), img);
 
         RelativeLayout relativeLayout = (RelativeLayout) view.findViewById(R.id.card_relativeLayout);
         SkyconView icon = null;
@@ -74,6 +73,7 @@ public class Utils {
             case "中雨":
                 icon = new CloudRainView(context);
                 break;
+            case "雨夹雪":
             case "大雨":
             case "阵雨":
                 icon = new CloudHvRainView(context);
@@ -109,12 +109,13 @@ public class Utils {
     }
 
     //天气情况
-    public static void setupDetailItem(final View view, final DetailLibraryObject detailLibraryObject) {
+    public static void setupDetailItem(final View view, final DetailLibraryObject detailLibraryObject, Context context) {
         final TextView txt = (TextView) view.findViewById(R.id.detail_txt);
         txt.setText(detailLibraryObject.getTitle());
 
         final TextView content = (TextView) view.findViewById(R.id.detail_content);
         content.setText(detailLibraryObject.getContent());
+        content.setTypeface(FontsUtil.getFont("fonts/SiYuan.ttf", context));
 
         final ImageView icon = (ImageView) view.findViewById(R.id.detail_icon);
         icon.setImageResource(detailLibraryObject.getRes());
@@ -216,6 +217,27 @@ public class Utils {
         return false;
     }
 
+    //判断service是否运行
+    public static boolean isServiceRunning(Context mContext,String className) {
+        boolean isRunning = false;
+        ActivityManager activityManager = (ActivityManager)
+                mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> serviceList
+                = activityManager.getRunningServices(40);
+        if (!(serviceList.size()>0)) {
+            return false;
+        }
+        for (int i=0; i<serviceList.size(); i++) {
+            String mName = serviceList.get(i).service.getClassName();
+            Log.d("service", mName);
+            if (mName.equals(className)) {
+                isRunning = true;
+                break;
+            }
+        }
+        return isRunning;
+    }
+
     //判断日期
     public static String dayForWeek(String pTime){
         int dayForWeek = 0;
@@ -273,22 +295,32 @@ public class Utils {
     }
 
     //找出最低温度
-    public static int minTmp(float[] mTmp) {
+    public static int[] minValue(float[] mTmp) {
+        int[] result = new int[2];
         float min = mTmp[0];
-        for (float tmp : mTmp) {
-            if (min > tmp)
-                min = tmp;
+        int number = 0;
+        for (int i=0; i < mTmp.length; i++) {
+            if (min > mTmp[i]) {
+                min = mTmp[i];
+                number = i;
+            }
         }
-        return (int)min;
+        result[0] = number; result[1] = (int) min;
+        return result;
     }
     //找出最高温度
-    public static int maxTmp(float[] mTmp) {
+    public static int[] maxValue(float[] mTmp) {
+        int[] result = new int[2];
         float max = mTmp[0];
-        for (float tmp : mTmp) {
-            if (max < tmp)
-                max = tmp;
+        int number = 0;
+        for (int i=0; i < mTmp.length; i++) {
+            if (max < mTmp[i]) {
+                max = mTmp[i];
+                number = i;
+            }
         }
-        return (int)max;
+        result[0] = number; result[1] = (int) max;
+        return result;
     }
 
     //双击退出

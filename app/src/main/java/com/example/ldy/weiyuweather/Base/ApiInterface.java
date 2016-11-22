@@ -8,10 +8,11 @@ import rx.Observable;
 
 /**
  * Created by LDY on 2016/10/9.
+ * 更新接口
  */
 public interface ApiInterface {
-    String HOST = "https://api.heweather.com/x3/";
+    String HOST = "https://api.heweather.com/v5/";
 
     @GET("weather")
-    Observable<WeatherApi> mWeather(@Query("cityid") String cityId, @Query("key") String key);
+    Observable<WeatherApi> mWeather(@Query("city") String city, @Query("key") String key);
 }

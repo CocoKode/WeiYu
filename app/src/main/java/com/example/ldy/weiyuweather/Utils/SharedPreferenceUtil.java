@@ -14,6 +14,8 @@ public class SharedPreferenceUtil {
     private static final String CITY_NAME = "城市名称";
     private static final String CITY_LON = "lon";
     private static final String CITY_LAT = "lat";
+    private static final String UPDATE_CHECKED = "update";
+    private static final String UPDATE_TIME = "update_time";
 
     private static  SharedPreferences mSpfs;
 
@@ -117,6 +119,22 @@ public class SharedPreferenceUtil {
         putString("carTxt", weather.suggestion.cw.txt);
         putString("sportTxt", weather.suggestion.sport.txt);
         putString("travelTxt", weather.suggestion.trav.txt);
+    }
+
+    public boolean getUpdateChecked() {
+        return mSpfs.getBoolean(UPDATE_CHECKED, true);
+    }
+
+    public void setUpdateChecked(boolean b) {
+        mSpfs.edit().putBoolean(UPDATE_CHECKED, b).commit();
+    }
+
+    public String getUpdateTime() {
+        return mSpfs.getString(UPDATE_TIME, "");
+    }
+
+    public void setUpdateTime(String time) {
+        mSpfs.edit().putString(UPDATE_TIME, time).commit();
     }
 
     public void setCityId(String cityId) {

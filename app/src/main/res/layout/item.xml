@@ -9,6 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp"
         app:cardPreventCornerOverlap="false"
@@ -24,7 +26,7 @@
                 android:id="@+id/img_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:src="@drawable/midnightinthevalley2"
+                tools:src="@mipmap/sunny1"
                 android:adjustViewBounds="true"
                 tools:ignore="ContentDescription" />
 
@@ -56,9 +58,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/img_item"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:textColor="#000000"
-                android:textSize="25sp"
+                android:textSize="24sp"
                 android:typeface="sans"
                 tools:text="今日"/>
 

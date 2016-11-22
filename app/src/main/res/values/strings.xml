@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WeiyuWeather</string>
+    <string name="app_name">未雨天气</string>
 
     <!--bundle传递key-->
     <string name="BUNDLE_KEY">weather</string>

@@ -3,10 +3,7 @@ package com.example.ldy.weiyuweather.NetWork;
 import com.example.ldy.weiyuweather.Base.ApiInterface;
 import com.example.ldy.weiyuweather.Base.BaseApplication;
 import com.example.ldy.weiyuweather.Base.HeWeather;
-import com.example.ldy.weiyuweather.Base.WeeklyApiInterface;
-import com.example.ldy.weiyuweather.Decode.DecodeStringConverterFactory;
 import com.example.ldy.weiyuweather.Gson.Weather;
-import com.example.ldy.weiyuweather.Gson.WholeWeather;
 import com.example.ldy.weiyuweather.Utils.RxUtils;
 import com.example.ldy.weiyuweather.Utils.Utils;
 
@@ -128,7 +125,7 @@ public class RetrofitSingleton {
     public Observable<Weather> fetchWeather(String city) {
         return apiService.mWeather(city, HeWeather.PERSONAL_KEY)
                 .flatMap(weatherApi -> {
-                    String status = weatherApi.mHeWeatherDataService30.get(0).status;
+                    String status = weatherApi.mHeWeather5.get(0).status;
                     if ("no more requests".equals(status))
                         return Observable.error(new RuntimeException("查询次数用完噜"));
                     else if ("unknown city".equals(status))
@@ -136,7 +133,7 @@ public class RetrofitSingleton {
 
                     return Observable.just(weatherApi);
                 })
-                .map(weatherAPI -> weatherAPI.mHeWeatherDataService30.get(0))
+                .map(weatherAPI -> weatherAPI.mHeWeather5.get(0))
                 .compose(RxUtils.rxSchedulerHelper());
     }
 
@@ -144,13 +141,13 @@ public class RetrofitSingleton {
     public Observable<WholeWeather> fetchWeather(String city) {
         return apiService.mWeather(city, HeWeather.PERSONAL_KEY)
                 .flatMap(weatherApi -> {
-                    String status = weatherApi.mHeWeatherDataService30.get(0).status;
+                    String status = weatherApi.mHeWeather5.get(0).status;
                     if ("no more requests".equals(status))
                         return Observable.error(new RuntimeException("查询次数用完噜"));
                     else if ("unknown city".equals(status))
                         return Observable.error(new RuntimeException(String.format("没有查到%s", city)));
 
-                    mWeather = weatherApi.mHeWeatherDataService30.get(0);
+                    mWeather = weatherApi.mHeWeather5.get(0);
                     String lon = mWeather.basic.lon;
                     String lat = mWeather.basic.lat;
                     return weeklyApiInterface.mWeeklyWeather(lon, lat);

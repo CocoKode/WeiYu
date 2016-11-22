@@ -1,6 +1,8 @@
 package com.example.ldy.weiyuweather.Screens;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.TintAwareDrawable;
@@ -14,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ldy.weiyuweather.Adapters.MainAdapter;
@@ -25,6 +29,7 @@ import com.example.ldy.weiyuweather.Database.Handle.HandleDatabase;
 import com.example.ldy.weiyuweather.Gson.Weather;
 import com.example.ldy.weiyuweather.NetWork.RetrofitSingleton;
 import com.example.ldy.weiyuweather.R;
+import com.example.ldy.weiyuweather.Service.AutoUpdateService;
 import com.example.ldy.weiyuweather.Utils.RxBus;
 import com.example.ldy.weiyuweather.Utils.SharedPreferenceUtil;
 import com.example.ldy.weiyuweather.Utils.ToastUtil;
@@ -35,6 +40,7 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.LongFunction;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,15 +58,23 @@ public class MainActivity extends RxAppCompatActivity {
     @Bind(R.id.toolbar_txt)
     TextView mToolbarTxt;
 
+    @Bind(R.id.settings)
+    Button mSettings;
+
     @Bind(R.id.toolbar_search)
     MaterialSearchView mSearchView;
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+
+    @Bind(R.id.error_img)
+    ImageView errImg;
     ///////////////////////////////////////////////
     private static Weather mWeather = new Weather();
 
     private static MainAdapter mMainAdapter;
+
+    private static final String UPDATE_SERVICE = "com.example.ldy.weiyuweather.Service.AutoUpdateService";
 
     //图标代号
     private int UNkNOWN = 0;
@@ -96,8 +110,16 @@ public class MainActivity extends RxAppCompatActivity {
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
 
+        //设置button
+        mSettings.setOnClickListener(view ->  {
+                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                startActivityForResult(intent, 20);
+            }
+        );
+
         //设置搜索框
         mSearchView.setVoiceSearch(false);
+        mSearchView.setBackgroundResource(R.drawable.search_bg);
         mSearchView.setHint("输入您想查询的城市");
         mSearchView.setCursorDrawable(R.drawable.custom_cursor);
         mSearchView.setEllipsize(true);
@@ -106,12 +128,7 @@ public class MainActivity extends RxAppCompatActivity {
         mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Snackbar.make(findViewById(R.id.toolbar_layout), "切换" + query, Snackbar.LENGTH_LONG)
-                        .show();
-
                 searchCity(query);
-
-                //RxBus.getDefault().post(new refreshEvent());
                 load();
                 return false;
             }
@@ -221,9 +238,10 @@ public class MainActivity extends RxAppCompatActivity {
 
     //加载数据到mWeather中
     private void load() {
-        if (Utils.isNetworkConnected(this)) {
+        if (!Utils.isNetworkConnected(this)) {
             ToastUtil.showShort("加载失败，请检查你的网络");
-            return;
+            //mSwLayout.setRefreshing(false);
+            //return;
         }
 
         fetchDataFromNetwork()
@@ -233,7 +251,13 @@ public class MainActivity extends RxAppCompatActivity {
                     mViewPager.setVisibility(View.GONE);
                 })
                 .doOnError(throwable -> {
-                    SharedPreferenceUtil.getInstance().setCityId("CN101110101");
+                    mToolbarTxt.setText("加载失败");
+                    errImg.setVisibility(View.VISIBLE);
+                    mViewPager.setVisibility(View.GONE);
+                    //SharedPreferenceUtil.getInstance().setCityId("CN101110101");
+                })
+                .doOnNext(weather -> {
+                    errImg.setVisibility(View.GONE);
                 })
                 .doOnTerminate(() -> {
                     mSwLayout.setRefreshing(false);
@@ -244,7 +268,6 @@ public class MainActivity extends RxAppCompatActivity {
             public void onCompleted() {
                 mViewPager.setVisibility(View.VISIBLE);
                 mToolbarTxt.setText(mWeather.basic.city);
-                //mDetailTmp.setText(mWeather.now.tmp + "°");
                 ToastUtil.showShort("加载完毕噜");
             }
 
@@ -282,6 +305,43 @@ public class MainActivity extends RxAppCompatActivity {
         return RetrofitSingleton.getInstance()
                 .fetchWeather(cityId)
                 .compose(this.bindToLifecycle());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+
+        if (SharedPreferenceUtil.getInstance().getUpdateChecked()) {
+            if (resultCode == 10) {
+                if (data == null) {
+                    Log.d("mainactivity", "返回值为空");
+                    return;
+                }
+                int updateHour = data.getIntExtra("test", 0);
+                if (updateHour == 0) return;
+                Log.d("mainactivity", "" + updateHour);
+
+                if (Utils.isServiceRunning(this, UPDATE_SERVICE)) {
+                    Log.d("mainactivity", "停止服务，开启新服务");
+                    Intent stopIntent = new Intent(this, AutoUpdateService.class);
+                    stopService(stopIntent);
+                }
+
+                Log.d("mainactivity", "开启服务" + Utils.isServiceRunning(this, UPDATE_SERVICE));
+                Intent startIntent = new Intent(this, AutoUpdateService.class);
+                startIntent.putExtra("updateTime", updateHour);
+                startService(startIntent);
+            }
+            Log.d("mainactivity", "返回码" + resultCode);
+        } else {
+            if (Utils.isServiceRunning(this, UPDATE_SERVICE)) {
+                Log.d("mainactivity", "若有服务存在则停止");
+                Intent stopIntent = new Intent(this, AutoUpdateService.class);
+                stopService(stopIntent);
+            }
+            Log.d("mainactivity", "没有服务存在");
+        }
+
     }
 
     @Override

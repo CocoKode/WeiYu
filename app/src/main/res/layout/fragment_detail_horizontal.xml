@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:background="@color/toolbar_color">
@@ -14,11 +15,57 @@
             android:id="@+id/detail_tmp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="80sp"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:layout_marginLeft="80dp"
+            android:textSize="90sp"
             android:textColor="@color/detail_tmp_color"
-            android:text="23°"/>
-    </FrameLayout>
+            tools:text="23°"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:layout_toRightOf="@id/detail_tmp">
+
+            <TextView
+                android:id="@+id/detail_weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:textSize="14sp"
+                android:textColor="@color/detail_tmp_color"
+                tools:text="天气晴"/>
+
+            <TextView
+                android:id="@+id/detail_feel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:textSize="14sp"
+                android:textColor="@color/detail_tmp_color"
+                tools:text="体感12℃"/>
+
+            <TextView
+                android:id="@+id/detail_hum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:textSize="14sp"
+                android:textColor="@color/detail_tmp_color"
+                tools:text="湿度30%"/>
+            <TextView
+                android:id="@+id/detail_pres"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:textSize="14sp"
+                android:textColor="@color/detail_tmp_color"
+                tools:text="气压1023hPa" />
+
+        </LinearLayout>
+    </RelativeLayout>
 
     <com.example.ldy.weiyuweather.Utils.SquareFrameLayout
         android:layout_width="match_parent"

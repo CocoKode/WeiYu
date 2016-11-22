@@ -44,50 +44,49 @@ public class HorizontalPagerAdapter extends PagerAdapter{
 
         LIBRARIES = new Utils.LibraryObject[] {
                 new Utils.LibraryObject(
-                        R.drawable.midnightinthevalley2,
+                        matchWeather(mWeather.dailyForecast.get(0).cond.txtD),
                         "今日",
                         mWeather.dailyForecast.get(0).cond.txtD,
                         mWeather.now.tmp
                 ),
                 new Utils.LibraryObject(
-                        R.drawable.midnightinthevalley2,
+                        matchWeather(mWeather.dailyForecast.get(1).cond.txtD),
                         "明日",
                         mWeather.dailyForecast.get(1).cond.txtD,
                         mWeather.dailyForecast.get(1).tmp.max
                 ),
                 new Utils.LibraryObject(
-                        R.drawable.midnightinthevalley2,
+                        matchWeather(mWeather.dailyForecast.get(2).cond.txtD),
                         Utils.dayForWeek(mWeather.dailyForecast.get(2).date),
                         mWeather.dailyForecast.get(2).cond.txtD,
                         mWeather.dailyForecast.get(2).tmp.max
                 ),
                 new Utils.LibraryObject(
-                        R.drawable.midnightinthevalley2,
+                        matchWeather(mWeather.dailyForecast.get(3).cond.txtD),
                         Utils.dayForWeek(mWeather.dailyForecast.get(3).date),
                         mWeather.dailyForecast.get(3).cond.txtD,
                         mWeather.dailyForecast.get(3).tmp.max
                 ),
                 new Utils.LibraryObject(
-                        R.drawable.midnightinthevalley2,
+                        matchWeather(mWeather.dailyForecast.get(4).cond.txtD),
                         Utils.dayForWeek(mWeather.dailyForecast.get(4).date),
                         mWeather.dailyForecast.get(4).cond.txtD,
                         mWeather.dailyForecast.get(4).tmp.max
                 ),
                 new Utils.LibraryObject(
-                        R.drawable.midnightinthevalley2,
+                        matchWeather(mWeather.dailyForecast.get(5).cond.txtD),
                         Utils.dayForWeek(mWeather.dailyForecast.get(5).date),
                         mWeather.dailyForecast.get(5).cond.txtD,
                         mWeather.dailyForecast.get(5).tmp.max
                 ),
                 new Utils.LibraryObject(
-                        R.drawable.midnightinthevalley2,
+                        matchWeather(mWeather.dailyForecast.get(6).cond.txtD),
                         Utils.dayForWeek(mWeather.dailyForecast.get(6).date),
                         mWeather.dailyForecast.get(6).cond.txtD,
                         mWeather.dailyForecast.get(6).tmp.max
                 )
         };
     }
-
 
     @Override
     public int getCount() {
@@ -131,5 +130,33 @@ public class HorizontalPagerAdapter extends PagerAdapter{
     public int getItemPosition(Object object) {
         Log.d("HorizontalPagerPager", "isViewFromObject");
         return POSITION_NONE;
+    }
+
+    private int matchWeather(String txtD) {
+        switch (txtD) {
+            case "阴":
+                return R.mipmap.yin;
+            case "晴间多云":
+            case "多云":
+            case "少云":
+                return R.mipmap.cloudy;
+            case "小雨":
+            case "中雨":
+            case "大雨":
+            case "阵雨":
+            case "雨夹雪":
+                return R.mipmap.rain3;
+            case "雷阵雨":
+                return R.mipmap.thunder;
+            case "霾":
+            case "雾":
+                return R.mipmap.fog1;
+            case "小雪":
+            case "中雪":
+            case "大雪":
+                return R.mipmap.snow1;
+            default:
+                return R.mipmap.sunny3;
+        }
     }
 }

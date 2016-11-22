@@ -8,10 +8,10 @@
     <color name="horizental_text_color">#ffffff</color>
 
     <!--图表页文字颜色-->
-    <color name="table_text_color">#000000</color>
+    <color name="table_text_color">#ffffff</color>
 
     <!--当前天气分割线颜色-->
-    <color name="now_item_divider_color">#000000</color>
+    <color name="now_item_divider_color">#20000000</color>
 
     <!--详细页温度颜色-->
     <color name="detail_tmp_color">#ffffff</color>
@@ -29,8 +29,15 @@
     <color name="activity_background">@android:color/transparent</color>
 
     <!--画笔轨迹线和太阳颜色-->
-    <color name="dash_paint_color">@android:color/holo_blue_light</color>
+    <color name="dash_paint_color">@android:color/white</color>
 
     <!--画笔文字颜色-->
-    <color name="txt_paint_color">@android:color/black</color>
+    <color name="txt_paint_color">@android:color/white</color>
+
+    <!-- 文字不可用时颜色 -->
+    <color name="txt_enable_color">#53000000</color>
+
+    <!-- 文字可用时颜色 -->
+    <color name="txt_able_color">#000000</color>
+
 </resources>

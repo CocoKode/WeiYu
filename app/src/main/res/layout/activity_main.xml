@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:background="@mipmap/background"
+    android:background="@mipmap/new_bg"
     tools:context=".Screens.MainActivity">
 
     <LinearLayout
@@ -17,7 +17,7 @@
 
         <com.example.ldy.weiyuweather.Utils.ViewPagerSwipeRefreshLayout
             android:id="@+id/sw_layout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="9"
             android:background="@color/activity_background">
@@ -35,7 +35,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             app:ntb_bg_color="#605271"
-            app:ntb_title_size="15sp"
+            app:ntb_title_size="16sp"
             app:ntb_badged="false"
             app:ntb_title_mode="active"
             app:ntb_titled="true"
@@ -52,8 +52,13 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:paddingTop="5dp"
             android:background="@color/toolbar_color">
+
+            <Button
+                android:id="@+id/settings"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/settings"/>
 
             <TextView
                 android:id="@+id/toolbar_txt"
@@ -64,13 +69,24 @@
                 android:textColor="#ffffff"
                 android:textSize="20sp"
                 android:text="西安" />
+
         </android.support.v7.widget.Toolbar>
 
+        <ImageView
+            android:id="@+id/error_img"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="100dp"
+            android:src="@mipmap/err"
+            />
 
         <com.miguelcatalan.materialsearchview.MaterialSearchView
             android:id="@+id/toolbar_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
+
     </FrameLayout>
 </FrameLayout>

@@ -3,27 +3,28 @@ package com.example.ldy.weiyuweather.Adapters;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.os.Build;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.db.chart.Tools;
+import com.db.chart.animation.Animation;
 import com.db.chart.model.LineSet;
 import com.db.chart.model.Point;
 import com.db.chart.renderer.AxisRenderer;
 import com.db.chart.tooltip.Tooltip;
-import com.db.chart.view.ChartView;
 import com.db.chart.view.LineChartView;
 import com.example.ldy.weiyuweather.Gson.Weather;
 import com.example.ldy.weiyuweather.R;
-import com.example.ldy.weiyuweather.Utils.SharedPreferenceUtil;
+import com.example.ldy.weiyuweather.Utils.AddValueLinearChartView;
+import com.example.ldy.weiyuweather.Utils.ImageLoadUtil;
 import com.example.ldy.weiyuweather.Utils.SunRiseDownView;
 import com.example.ldy.weiyuweather.Utils.Utils;
 
@@ -37,7 +38,7 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private Context mContext;
     private String[] mData;
-    private static Paint gridPaint = new Paint();
+
     private Weather mWeather = new Weather();
 
     private String[] mNoLabel = {"", "", "", "", "", "", ""};
@@ -52,12 +53,6 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         mWeather = weather;
         mContext = context;
         initWeatherData();
-
-        gridPaint.setColor(Color.parseColor("#F7B151"));
-        gridPaint.setStyle(Paint.Style.STROKE);
-        gridPaint.setAntiAlias(true);
-        gridPaint.setStrokeWidth(Tools.fromDpToPx(1));
-        gridPaint.setPathEffect(new DashPathEffect(new float[]{20, 20}, 10));
     }
 
     private void initWeatherData() {
@@ -140,24 +135,75 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private void bindNowWeatherViewHolder(nowWeatherViewHolder holder, int position) {
         holder.nowTitle.setText(mData[position].toString());
         holder.nowTmp.setText(String.format("%s℃", mWeather.now.tmp));
-        holder.airAqi.setText(mWeather.aqi.city.aqi);
-        holder.airQlty.setText(String.format("空气%s", mWeather.aqi.city.qlty));
-        holder.pm25.setText(mWeather.aqi.city.pm25);
+        if (mWeather.aqi != null) {
+            holder.airAqi.setText(mWeather.aqi.city.aqi);
+            holder.airQlty.setText(String.format("空气%s", mWeather.aqi.city.qlty));
+            holder.pm25.setText(mWeather.aqi.city.pm25);
+        }
         holder.windDir.setText(mWeather.now.wind.dir);
         holder.windSc.setText(String.format("%s级", mWeather.now.wind.sc));
         holder.rainPop.setText(String.format("%s%%", mWeather.dailyForecast.get(0).pop));
+
+        String info = mWeather.now.cond.txt;
+        int iconRes = switchIcon(info);
+
+        holder.nowTxt.setText(info);
+        ImageLoadUtil.load(mContext, iconRes, holder.nowIcon);
     }
+
+    private int switchIcon(String info) {
+        switch (info) {
+            case "晴":
+                return R.mipmap.qingtian;
+            case "阴":
+            case "多云":
+            case "少云":
+                return R.mipmap.yingtian;
+            case "晴间多云":
+                return R.mipmap.qingyun;
+            case "小雨":
+            case "中雨":
+                return R.mipmap.xiaoyu;
+            case "雨夹雪":
+            case "大雨":
+            case "阵雨":
+                return R.mipmap.dayu;
+            case "雷阵雨":
+                return R.mipmap.leiyu;
+            case "霾":
+            case "雾":
+                return R.mipmap.mai;
+            case "小雪":
+            case "中雪":
+            case "大雪":
+                return R.mipmap.youxue;
+            case "有风":
+            case "微风":
+            case "大风":
+                return R.mipmap.youfeng;
+            default:
+                return R.mipmap.qingtian;
+        }
+    }
+
     private void bindChartViewHolder(chartViewHolder holder, int position) {
         holder.title.setText(mData[position].toString());
 
         switch (position) {
             case 1:
-                showTmpChart(holder.mChart);
+                holder.unit.setText("单位：℃");
+                holder.cardView.setCardBackgroundColor(Color.parseColor("#384666"));
+                showTmpChart((LineChartView) holder.mChart);
                 break;
             case 2:
-                showWindChart(holder.mChart);
+                holder.unit.setText("单位：Km/h");
+                showWindChart((LineChartView) holder.mChart);
                 break;
             case 3:
+                holder.unit.setText("单位：%");
+                //必须先向上转型， 再向下转型
+                //AddValueLinearChartView ac = new AddValueLinearChartView(mContext);
+                //holder.mChart = ac;
                 showHumChart(holder.mChart);
                 break;
             default:
@@ -184,11 +230,46 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     private void showTmpChart(LineChartView chartView) {
+        Tooltip maxTmpTip = new Tooltip(mContext, R.layout.max_tmp_chart_tip, R.id.tip_tmp);
+        maxTmpTip.setVerticalAlignment(Tooltip.Alignment.BOTTOM_TOP);
+        maxTmpTip.setDimensions((int) Tools.fromDpToPx(58), (int) Tools.fromDpToPx(25));
 
-        //chartView.setTooltips(mTip);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+
+            maxTmpTip.setEnterAnimation(PropertyValuesHolder.ofFloat(View.ALPHA, 1),
+                    PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f),
+                    PropertyValuesHolder.ofFloat(View.SCALE_X, 1f)).setDuration(200);
+
+            maxTmpTip.setExitAnimation(PropertyValuesHolder.ofFloat(View.ALPHA, 0),
+                    PropertyValuesHolder.ofFloat(View.SCALE_Y, 0f),
+                    PropertyValuesHolder.ofFloat(View.SCALE_X, 0f)).setDuration(200);
+
+            maxTmpTip.setPivotX(Tools.fromDpToPx(65) / 2);
+            maxTmpTip.setPivotY(Tools.fromDpToPx(25));
+        }
+        chartView.setTooltips(maxTmpTip);
+
+        Tooltip minTmpTip = new Tooltip(mContext, R.layout.min_tmp_chart_tip, R.id.tip_min_tmp);
+        minTmpTip.setVerticalAlignment(Tooltip.Alignment.BOTTOM_BOTTOM);
+        minTmpTip.setDimensions((int) Tools.fromDpToPx(58), (int) Tools.fromDpToPx(25));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+
+            minTmpTip.setEnterAnimation(PropertyValuesHolder.ofFloat(View.ALPHA, 1),
+                    PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f),
+                    PropertyValuesHolder.ofFloat(View.SCALE_X, 1f)).setDuration(200);
+
+            minTmpTip.setExitAnimation(PropertyValuesHolder.ofFloat(View.ALPHA, 0),
+                    PropertyValuesHolder.ofFloat(View.SCALE_Y, 0f),
+                    PropertyValuesHolder.ofFloat(View.SCALE_X, 0f)).setDuration(200);
+
+            minTmpTip.setPivotX(Tools.fromDpToPx(65) / 2);
+            minTmpTip.setPivotY(Tools.fromDpToPx(25));
+        }
+        chartView.setTooltips(minTmpTip);
 
         LineSet maxDataset = new LineSet(mWeekLabel, mMaxTmpValue);
-        maxDataset.setColor(Color.parseColor("#004f7f"))
+        maxDataset.setColor(Color.parseColor("#04BDD5"))
                 .setThickness(Tools.fromDpToPx(3))
                 .setSmooth(true)
                 .beginAt(0)
@@ -202,7 +283,7 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         chartView.addData(maxDataset);
 
         LineSet minDataset = new LineSet(mNoLabel, mMinTmpValue);
-        minDataset.setColor(Color.parseColor("#004f7f"))
+        minDataset.setColor(Color.parseColor("#04BDD5"))
                 .setThickness(Tools.fromDpToPx(3))
                 .setSmooth(true)
                 .beginAt(0)
@@ -215,74 +296,85 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
         chartView.addData(minDataset);
 
-        int min = Utils.minTmp(mMinTmpValue);
-        int max = Utils.maxTmp(mMaxTmpValue);
+        int min = Utils.minValue(mMinTmpValue)[0]; int max = Utils.maxValue(mMaxTmpValue)[0];
+        int minValue = Utils.minValue(mMinTmpValue)[1];
+        int maxValue = Utils.maxValue(mMaxTmpValue)[1];
         chartView.setBorderSpacing(Tools.fromDpToPx(0))
                 .setXLabels(AxisRenderer.LabelPosition.OUTSIDE)
                 .setLabelsColor(Color.parseColor("#000000"))
                 .setYLabels(AxisRenderer.LabelPosition.NONE)
+                .setLabelsColor(Color.WHITE)
                 .setXAxis(false)
                 .setYAxis(false)
-                .setAxisBorderValues(min-5, max+5);
+                .setAxisBorderValues(minValue-5, maxValue+5);
 
-        //mTip.
-        //chartView.showTooltip(mTip, true);
+        Runnable chartAction = () -> {
+                maxTmpTip.prepare(chartView.getEntriesArea(0).get(max), mMaxTmpValue[max]);
+                minTmpTip.prepare(chartView.getEntriesArea(1).get(min), mMinTmpValue[min]);
+                chartView.showTooltip(maxTmpTip, true);
+                chartView.showTooltip(minTmpTip, true);
+        };
 
-        chartView.show();
+        chartView.show(new Animation().setEndAction(chartAction));
     }
 
+    //风速km/h
     private void showWindChart(LineChartView chartView) {
         LineSet dataset = new LineSet(mWeekLabel, mWindValue);
-        dataset.setColor(Color.parseColor("#C97ED7"))
+        dataset.setColor(Color.parseColor("#FFFFFF"))
                 .setSmooth(true)
-                .setThickness(Tools.fromDpToPx(0))
-                .setFill(Color.parseColor("#D1D0D2"))
+                .setThickness(Tools.fromDpToPx(3))
+                //.setFill(Color.parseColor("#D1D0D2"))
                 .setGradientFill(
-                        new int[] {Color.parseColor("#C97ED7"), Color.parseColor("#D1D0D2")}, null
+                        new int[] {Color.parseColor("#04A79C"), Color.parseColor("#5E918A")}, null
                 );
         chartView.addData(dataset);
 
-        int maxWind = Utils.maxTmp(mWindValue);
+        int maxWind = Utils.maxValue(mWindValue)[1];
         chartView.setBorderSpacing(1)
                 .setAxisBorderValues(0, maxWind)
                 .setAxisLabelsSpacing(Tools.fromDpToPx(5))
                 .setXLabels(AxisRenderer.LabelPosition.OUTSIDE)
                 .setLabelsColor(Color.parseColor("#000000"))
                 .setYLabels(AxisRenderer.LabelPosition.OUTSIDE)
+                .setLabelsColor(Color.WHITE)
                 .setXAxis(false)
                 .setYAxis(false)
                 .setBorderSpacing(Tools.fromDpToPx(0));
 
-        //chartView.setGrid(ChartView.GridType.HORIZONTAL, gridPaint);
-
-        chartView.show();
+        Animation animation = new Animation();
+        chartView.show(animation);
     }
 
-    private void showHumChart(LineChartView chartView) {
+    //相对湿度%
+    private void showHumChart(AddValueLinearChartView chartView) {
         LineSet dataset = new LineSet(mWeekLabel, mHumValue);
-        dataset.setColor(Color.parseColor("#4A38B4"))
+        dataset.setColor(Color.parseColor("#FFFFFF"))
                 .setSmooth(true)
-                .setThickness(0)
-                .setFill(Color.parseColor("#D1D0D2"))
+                .setThickness(Tools.fromDpToPx(3))
+                //.setFill(Color.parseColor("#D1D0D2"))
                 .setGradientFill(
-                        new int[] {Color.parseColor("#4A38B4"), Color.parseColor("#9966CA")}, null
+                        new int[] {Color.parseColor("#0DF7E9"), Color.parseColor("#07D6C7")}, null
                 );
         chartView.addData(dataset);
 
-        int maxHum = Utils.maxTmp(mHumValue);
+        int maxHum = Utils.maxValue(mHumValue)[1];
+        int minHum = Utils.minValue(mHumValue)[1];
         chartView.setBorderSpacing(1)
-                .setAxisBorderValues(0, maxHum)
+                .setAxisBorderValues(0, 100, 20)
                 .setAxisLabelsSpacing(Tools.fromDpToPx(5))
                 .setXLabels(AxisRenderer.LabelPosition.OUTSIDE)
                 .setLabelsColor(Color.parseColor("#000000"))
                 .setYLabels(AxisRenderer.LabelPosition.OUTSIDE)
+                .setLabelsColor(Color.WHITE)
                 .setXAxis(false)
                 .setYAxis(false)
                 .setBorderSpacing(Tools.fromDpToPx(0));
 
-        //chartView.setGrid(ChartView.GridType.HORIZONTAL, gridPaint);
 
-        chartView.show();
+
+        Animation animation = new Animation();
+        chartView.show(animation);
     }
 
     @Override
@@ -293,13 +385,17 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public static class chartViewHolder extends RecyclerView.ViewHolder{
         //图表布局
         TextView title;
-        LineChartView mChart;
+        AddValueLinearChartView mChart;
+        TextView unit;
+        CardView cardView;
 
         public chartViewHolder(View itemView) {
             super(itemView);
 
             title = (TextView) itemView.findViewById(R.id.table_title);
-            mChart = (LineChartView) itemView.findViewById(R.id.tmp_chart);
+            mChart = (AddValueLinearChartView) itemView.findViewById(R.id.tmp_chart);
+            unit = (TextView) itemView.findViewById(R.id.unit);
+            cardView = (CardView) itemView.findViewById(R.id.table_item);
         }
     }
 
@@ -314,6 +410,9 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         TextView pm25;
         TextView rainPop;
 
+        ImageView nowIcon;
+        TextView nowTxt;
+
         public nowWeatherViewHolder(View itemView) {
             super(itemView);
 
@@ -325,11 +424,14 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             windSc = (TextView) itemView.findViewById(R.id.wind_sc);
             pm25 = (TextView) itemView.findViewById(R.id.pm25);
             rainPop = (TextView) itemView.findViewById(R.id.rain_pop);
+
+            nowIcon = (ImageView) itemView.findViewById(R.id.now_weather_icon);
+            nowTxt = (TextView) itemView.findViewById(R.id.now_weather_txt);
         }
     }
 
     public static class sunViewHolder extends RecyclerView.ViewHolder{
-        //图表布局
+        //日出布局
         TextView sunTitle;
         SunRiseDownView sunView;
 

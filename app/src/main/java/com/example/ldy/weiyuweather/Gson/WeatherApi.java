@@ -8,9 +8,10 @@ import java.util.List;
 
 /**
  * Created by LDY on 2016/10/10.
+ * 更新接口
  */
 public class WeatherApi {
-    @SerializedName("HeWeather data service 3.0")
+    @SerializedName("HeWeather5")
     @Expose
-    public List<Weather> mHeWeatherDataService30 = new ArrayList<>();
+    public List<Weather> mHeWeather5 = new ArrayList<>();
 }

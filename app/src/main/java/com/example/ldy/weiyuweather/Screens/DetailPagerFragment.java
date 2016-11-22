@@ -22,6 +22,10 @@ import com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager;
 public class DetailPagerFragment extends Fragment {
     private Weather mWeather;
     private TextView mDetailTmp;
+    private TextView mDetailWeather;
+    private TextView mDetailFeel;
+    private TextView mDetailHum;
+    private TextView mDetailPres;
 
     public static Fragment newInstance (Weather weather) {
         Log.d("DetailPagerFragment", "创建新fragment");
@@ -67,8 +71,22 @@ public class DetailPagerFragment extends Fragment {
                 (HorizontalInfiniteCycleViewPager) view.findViewById(R.id.hicvp);
         horizontalInfiniteCycleViewPager.setAdapter(new DetailPagerAdapter(getContext(), mWeather));
 
-        mDetailTmp =(TextView) view.findViewById(R.id.detail_tmp);
-        if (mWeather.status != null)
+        show(view);
+    }
+
+    private void show(View view) {
+        mDetailTmp = (TextView) view.findViewById(R.id.detail_tmp);
+        mDetailWeather = (TextView) view.findViewById(R.id.detail_weather);
+        mDetailFeel = (TextView) view.findViewById(R.id.detail_feel);
+        mDetailHum = (TextView) view.findViewById(R.id.detail_hum);
+        mDetailPres = (TextView) view.findViewById(R.id.detail_pres);
+
+        if (mWeather.status != null) {
             mDetailTmp.setText(String.format("%s°", mWeather.now.tmp));
+            mDetailWeather.setText(String.format("天气:%s", mWeather.dailyForecast.get(0).cond.txtD));
+            mDetailFeel.setText(String.format("体感:%s℃", mWeather.now.fl));
+            mDetailHum.setText(String.format("湿度:%s%%", mWeather.now.hum));
+            mDetailPres.setText(String.format("气压:%shPa", mWeather.now.pres));
+        }
     }
 }

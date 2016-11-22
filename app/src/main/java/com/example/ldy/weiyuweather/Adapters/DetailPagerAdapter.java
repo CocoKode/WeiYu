@@ -18,6 +18,8 @@ import static com.example.ldy.weiyuweather.Utils.Utils.setupDetailItem;
  * Created by LDY on 2016/10/1.
  */
 public class DetailPagerAdapter extends PagerAdapter {
+    private Context mContext;
+
     private Weather mWeather = new Weather();
 
     private Utils.DetailLibraryObject[] DETAIL_LIBRARIES;
@@ -25,6 +27,7 @@ public class DetailPagerAdapter extends PagerAdapter {
     private LayoutInflater mLayoutInflater;
 
     public DetailPagerAdapter(final Context context, final Weather weather) {
+        mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
         mWeather = weather;
         initSuggestion();
@@ -39,37 +42,37 @@ public class DetailPagerAdapter extends PagerAdapter {
         DETAIL_LIBRARIES = new Utils.DetailLibraryObject[] {
                 new Utils.DetailLibraryObject(
                         R.drawable.clothes,
-                        R.mipmap.clothes,
+                        R.mipmap.clothes_flat,
                         "穿衣指数",
                         mWeather.suggestion.drsg.txt
                 ),
                 new Utils.DetailLibraryObject(
                         R.drawable.uv,
-                        R.mipmap.uv,
+                        R.mipmap.uv_flat,
                         "防晒指数",
                         mWeather.suggestion.uv.txt
                 ),
                 new Utils.DetailLibraryObject(
                         R.drawable.flu,
-                        R.mipmap.flu,
+                        R.mipmap.pills_flat,
                         "感冒指数",
                         mWeather.suggestion.flu.txt
                 ),
                 new Utils.DetailLibraryObject(
                         R.drawable.car,
-                        R.mipmap.carwash,
+                        R.mipmap.car_flat,
                         "洗车指数",
                         mWeather.suggestion.cw.txt
                 ),
                 new Utils.DetailLibraryObject(
                         R.drawable.sport,
-                        R.mipmap.sport,
+                        R.mipmap.sport_flat,
                         "运动指数",
                         mWeather.suggestion.sport.txt
                 ),
                 new Utils.DetailLibraryObject(
                         R.drawable.travel,
-                        R.mipmap.travel,
+                        R.mipmap.travel_flat,
                         "旅游指数",
                         mWeather.suggestion.trav.txt
                 )
@@ -85,7 +88,7 @@ public class DetailPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         final View view;
         view = mLayoutInflater.inflate(R.layout.detail_item, container, false);
-        setupDetailItem(view, DETAIL_LIBRARIES[position]);
+        setupDetailItem(view, DETAIL_LIBRARIES[position], mContext);
         container.addView(view);
         return view;
     }
