@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by LDY on 2016/11/13.
+ * 字体缓存类
  */
 public class FontsUtil {
     private static Map<String, Typeface> fontsCache = new ConcurrentHashMap<>();

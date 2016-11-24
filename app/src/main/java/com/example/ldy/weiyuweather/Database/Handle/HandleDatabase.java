@@ -27,7 +27,6 @@ public class HandleDatabase {
     public static void handleWithRx (final Context context) {
         File file = context.getDatabasePath(DB_NAME);
         if (file.exists()) {
-            Log.d("HandleDatabase", "数据库已存在");
             return;
         }
 
@@ -35,7 +34,6 @@ public class HandleDatabase {
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 try {
-                    //Log.d("HandleDatabase", "打开文件");
                     BufferedReader reader = null;
                     InputStream in = context.getAssets().open(FILE_NAME);
                     reader = new BufferedReader(new InputStreamReader(in, "utf-8"));
@@ -48,7 +46,6 @@ public class HandleDatabase {
                             String citySpell = cityInfo[1];
                             String cityName = cityInfo[2];
 
-                            //Log.d("HandleDatabase", "依次存入数据库");
                             CityId city = new CityId(cityID, citySpell, cityName);
                             city.save();
                         }
@@ -66,7 +63,6 @@ public class HandleDatabase {
                 .subscribe(new Observer<String>() {
                     @Override
                     public void onCompleted() {
-                        Log.d("HandleDatabase", "传输完成");
                     }
 
                     @Override

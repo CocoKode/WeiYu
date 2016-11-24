@@ -26,7 +26,6 @@ public class HorizontalPagerAdapter extends PagerAdapter{
     private Utils.LibraryObject[] LIBRARIES = null;
 
     public HorizontalPagerAdapter(final Context context, final Weather weather) {
-        Log.d("HorizontalPagerAdapter", "构造");
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
         mWeather = weather;
@@ -34,13 +33,8 @@ public class HorizontalPagerAdapter extends PagerAdapter{
     }
 
     private void initLibraryObject(Weather mWeather) {
-        if (mWeather.status == null) {
-            Log.d("initLibraryObject", "mweather为空");
+        if (mWeather.status == null)
             return;
-        }else {
-            Log.d("initLibraryObject", "mweather不为空" + mWeather.basic.city);
-            Log.d("initLibraryObject", "daily size =" + mWeather.dailyForecast.size());
-        }
 
         LIBRARIES = new Utils.LibraryObject[] {
                 new Utils.LibraryObject(
@@ -90,24 +84,12 @@ public class HorizontalPagerAdapter extends PagerAdapter{
 
     @Override
     public int getCount() {
-        Log.d("HorizontalPagerPager", "getcount");
         return mWeather.status == null ? 0 : LIBRARIES.length;
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        Log.d("HorizontalPagerAdapter", "instantiateItem");
         final View view;
-        /*
-        if (mIsTwoWay) {
-            view = mLayoutInflater.inflate(R.layout.two_way_item, container, false);
-
-            final VerticalInfiniteCycleViewPager verticalInfiniteCycleViewPager =
-                    (VerticalInfiniteCycleViewPager) view.findViewById(R.id.vicvp);
-            verticalInfiniteCycleViewPager.setAdapter(new VerticalPagerAdapter(mContext));
-            verticalInfiniteCycleViewPager.setCurrentItem(position);
-        }
-        */
         view = mLayoutInflater.inflate(R.layout.item, container, false);
         setupItem(view, LIBRARIES[position], mContext);
         container.addView(view);
@@ -116,19 +98,16 @@ public class HorizontalPagerAdapter extends PagerAdapter{
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        Log.d("HorizontalPagerPager", "destoryItem");
         container.removeView((View) object);
     }
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        Log.d("HorizontalPagerPager", "isViewFromObject");
         return view.equals(object);
     }
 
     @Override
     public int getItemPosition(Object object) {
-        Log.d("HorizontalPagerPager", "isViewFromObject");
         return POSITION_NONE;
     }
 

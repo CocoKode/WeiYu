@@ -35,7 +35,6 @@ public class DetailPagerAdapter extends PagerAdapter {
 
     private void initSuggestion() {
         if (mWeather.status == null) {
-            Log.d("initSuggestion", "未接收");
             return;
         }
 

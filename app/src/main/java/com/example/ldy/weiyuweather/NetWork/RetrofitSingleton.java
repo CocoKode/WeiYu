@@ -30,18 +30,10 @@ public class RetrofitSingleton {
     private static Retrofit retrofit = null;
     private static OkHttpClient okHttpClient = null;
 
-    /*
-    private static WeeklyApiInterface weeklyApiInterface = null;
-    private static Retrofit retrofitWeekly = null;
-    private static Weather mWeather = new Weather();
-    */
-
     private void init() {
         initOkHttp();
         initRetrofit();
         apiService = retrofit.create(ApiInterface.class);
-
-        //weeklyApiInterface = retrofitWeekly.create(WeeklyApiInterface.class);
     }
 
     //单例
@@ -111,15 +103,6 @@ public class RetrofitSingleton {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-
-        /*
-        retrofitWeekly = new Retrofit.Builder()
-                .baseUrl(weeklyApiInterface.HOST)
-                .client(okHttpClient)
-                .addConverterFactory(DecodeStringConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
-        */
     }
 
     public Observable<Weather> fetchWeather(String city) {

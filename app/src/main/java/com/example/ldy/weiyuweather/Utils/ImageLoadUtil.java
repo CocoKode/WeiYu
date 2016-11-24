@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide;
 
 /**
  * Created by LDY on 2016/11/10.
+ * 图片加载类
  */
 public class ImageLoadUtil {
     public static void load(Context context, @DrawableRes int imgRes, ImageView imgView) {

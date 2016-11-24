@@ -7,6 +7,7 @@ import rx.subjects.Subject;
 
 /**
  * Created by LDY on 2016/10/16.
+ * 封印
  */
 public class RxBus {
     private final Subject<Object, Object> bus;

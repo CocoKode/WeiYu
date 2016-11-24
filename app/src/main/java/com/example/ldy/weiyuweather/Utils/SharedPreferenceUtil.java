@@ -12,8 +12,6 @@ import com.example.ldy.weiyuweather.Gson.Weather;
 public class SharedPreferenceUtil {
     private static final String CITY_ID = "城市代码";
     private static final String CITY_NAME = "城市名称";
-    private static final String CITY_LON = "lon";
-    private static final String CITY_LAT = "lat";
     private static final String UPDATE_CHECKED = "update";
     private static final String UPDATE_TIME = "update_time";
 
@@ -32,6 +30,35 @@ public class SharedPreferenceUtil {
         mSpfs = BaseApplication.getmAppContext().getSharedPreferences("weatherSetting", Context.MODE_PRIVATE);
     }
 
+
+
+    public boolean getUpdateChecked() {
+        return mSpfs.getBoolean(UPDATE_CHECKED, true);
+    }
+
+    public void setUpdateChecked(boolean b) {
+        mSpfs.edit().putBoolean(UPDATE_CHECKED, b).commit();
+    }
+
+    public String getUpdateTime() {
+        return mSpfs.getString(UPDATE_TIME, "");
+    }
+
+    public void setUpdateTime(String time) {
+        mSpfs.edit().putString(UPDATE_TIME, time).commit();
+    }
+
+    public void setCityId(String cityId) {
+        mSpfs.edit().putString(CITY_ID, cityId).commit();
+    }
+    public String getCityId() {
+        return mSpfs.getString(CITY_ID, "CN101110101");
+    }
+    public void setCityName(String cityName) {
+        mSpfs.edit().putString(CITY_NAME, cityName).commit();
+    }
+
+    /*sharedoregerences存储
     public static void save(Weather weather) {
         saveWeekWeather(weather);
         saveNowWeather(weather);
@@ -120,69 +147,6 @@ public class SharedPreferenceUtil {
         putString("sportTxt", weather.suggestion.sport.txt);
         putString("travelTxt", weather.suggestion.trav.txt);
     }
-
-    public boolean getUpdateChecked() {
-        return mSpfs.getBoolean(UPDATE_CHECKED, true);
-    }
-
-    public void setUpdateChecked(boolean b) {
-        mSpfs.edit().putBoolean(UPDATE_CHECKED, b).commit();
-    }
-
-    public String getUpdateTime() {
-        return mSpfs.getString(UPDATE_TIME, "");
-    }
-
-    public void setUpdateTime(String time) {
-        mSpfs.edit().putString(UPDATE_TIME, time).commit();
-    }
-
-    public void setCityId(String cityId) {
-        mSpfs.edit().putString(CITY_ID, cityId).commit();
-    }
-    public String getCityId() {
-        return mSpfs.getString(CITY_ID, "CN101110101");
-    }
-    public void setCityName(String cityName) {
-        mSpfs.edit().putString(CITY_NAME, cityName).commit();
-    }
-    public String getCityName() {
-        return mSpfs.getString(CITY_NAME, "西安");
-    }
-
-    public String getCityLon() {
-        return mSpfs.getString(CITY_LON, "108.969000");
-    }
-    public void setCityLon(String lon) {
-        mSpfs.edit().putString(CITY_LON, lon).commit();
-    }
-    public String getCityLat() {
-        return mSpfs.getString(CITY_LAT, "34.285000");
-    }
-    public void setCityLat(String lat) {
-        mSpfs.edit().putString(CITY_LAT, lat).commit();
-    }
-
-
-    public static void putInt(String key, int value) {
-        mSpfs.edit().putInt(key, value).apply();
-    }
-    public int getInt(String key, int defValue) {
-        return mSpfs.getInt(key, defValue);
-    }
-
-    public static void putString(String key, String value) {
-        mSpfs.edit().putString(key, value).apply();
-    }
-    public String getString(String key, String defValue) {
-        return mSpfs.getString(key, defValue);
-    }
-
-    public static void putBoolean(String key, boolean value) {
-        mSpfs.edit().putBoolean(key, value).apply();
-    }
-    public boolean getBoolean(String key, boolean defValue) {
-        return mSpfs.getBoolean(key, defValue);
-    }
+    */
 }
 

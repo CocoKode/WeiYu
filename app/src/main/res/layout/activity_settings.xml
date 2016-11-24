@@ -72,7 +72,6 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:textSize="14sp"
-                        android:textColor="@android:color/holo_orange_dark"
                         android:text="设置"/>
 
                     <android.support.v7.widget.SwitchCompat
@@ -81,7 +80,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
                         android:textSize="16sp"
-                        android:textColor="@android:color/holo_blue_bright"
+                        android:textColor="@color/txt_able_color"
                         android:text="自动更新"
                         />
 
@@ -93,8 +92,9 @@
                             android:id="@+id/update"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="16dp"
+                            android:padding="16dp"
                             android:clickable="true"
+                            android:background="?attr/selectableItemBackground"
                             android:textColor="@color/txt_able_color"
                             android:textSize="16sp"
                             android:text="更新频率"

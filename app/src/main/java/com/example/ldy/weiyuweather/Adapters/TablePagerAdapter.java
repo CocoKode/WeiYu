@@ -56,13 +56,8 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     private void initWeatherData() {
-        if (mWeather.status == null) {
-            Log.d("initWeatherData", "mweather为空");
+        if (mWeather.status == null)
             return;
-        }else {
-            Log.d("initWeatherData", "mweather不为空" + mWeather.basic.city);
-            Log.d("initweatherdata", "daily size =" + mWeather.dailyForecast.size());
-        }
 
         mWeekLabel = new String[]{
                 "今日",
@@ -201,9 +196,6 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 break;
             case 3:
                 holder.unit.setText("单位：%");
-                //必须先向上转型， 再向下转型
-                //AddValueLinearChartView ac = new AddValueLinearChartView(mContext);
-                //holder.mChart = ac;
                 showHumChart(holder.mChart);
                 break;
             default:
@@ -324,7 +316,6 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         dataset.setColor(Color.parseColor("#FFFFFF"))
                 .setSmooth(true)
                 .setThickness(Tools.fromDpToPx(3))
-                //.setFill(Color.parseColor("#D1D0D2"))
                 .setGradientFill(
                         new int[] {Color.parseColor("#04A79C"), Color.parseColor("#5E918A")}, null
                 );
@@ -352,14 +343,11 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         dataset.setColor(Color.parseColor("#FFFFFF"))
                 .setSmooth(true)
                 .setThickness(Tools.fromDpToPx(3))
-                //.setFill(Color.parseColor("#D1D0D2"))
                 .setGradientFill(
                         new int[] {Color.parseColor("#0DF7E9"), Color.parseColor("#07D6C7")}, null
                 );
         chartView.addData(dataset);
 
-        int maxHum = Utils.maxValue(mHumValue)[1];
-        int minHum = Utils.minValue(mHumValue)[1];
         chartView.setBorderSpacing(1)
                 .setAxisBorderValues(0, 100, 20)
                 .setAxisLabelsSpacing(Tools.fromDpToPx(5))

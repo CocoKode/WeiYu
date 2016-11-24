@@ -6,6 +6,7 @@ import android.widget.FrameLayout;
 
 /**
  * Created by LDY on 2016/9/30.
+ * 正方形视图区域
  */
 public class SquareFrameLayout extends FrameLayout {
     public SquareFrameLayout(final Context context) {

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 /**
  * Created by LDY on 2016/11/22.
+ * 显示数字的线形图
  */
 public class AddValueLinearChartView extends LineChartView {
     private Paint textPaint = new Paint();

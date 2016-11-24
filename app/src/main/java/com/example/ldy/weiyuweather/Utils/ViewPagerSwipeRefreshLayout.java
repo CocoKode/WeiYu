@@ -9,6 +9,7 @@ import android.view.ViewConfiguration;
 /**
  * Created by LDY on 2016/11/1.
  * http://blog.csdn.net/u010386612/article/details/50548977#bottom
+ * 解决下拉刷新与viewpager滑动冲突
  */
 public class ViewPagerSwipeRefreshLayout extends SwipeRefreshLayout {
     private float startY;

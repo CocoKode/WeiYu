@@ -24,12 +24,6 @@ public class TablePagerFragment extends Fragment {
     private Weather mWeather;
 
     public static Fragment newInstance (Weather weather) {
-        Log.d("TablePagerFragment", "创建新fragment");
-        if (weather.status == null) {
-            Log.d("TablePagerFragment", "newInstance中weather为空");
-        } else {
-            Log.d("TablePagerFragment", "newInstance中weather不为空" + weather.basic.city);
-        }
         TablePagerFragment tPagerFragment = new TablePagerFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(BaseApplication.getmAppContext().getResources().getString(R.string.BUNDLE_KEY), weather);
@@ -39,18 +33,11 @@ public class TablePagerFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        Log.d("TablePagerFragment", "onCreate");
         super.onCreate(savedInstanceState);
 
         Bundle arg = getArguments();
         if (arg != null)
             mWeather = (Weather) arg.getSerializable(this.getResources().getString(R.string.BUNDLE_KEY));
-
-        if (mWeather.status == null){
-            Log.d("TablePagerFragment", "未接收");
-        }else {
-            Log.d("TablePagerFragment", "接收" + mWeather.basic.city);
-        }
     }
 
     @Nullable

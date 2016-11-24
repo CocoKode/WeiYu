@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 /**
  * Created by LDY on 2016/9/29.
+ * 取消点击事件
  */
 public class NonScrollableViewPager extends ViewPager {
     public NonScrollableViewPager(Context context) {

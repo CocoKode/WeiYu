@@ -13,6 +13,7 @@ import static com.example.ldy.weiyuweather.Utils.Utils.setupItem;
 
 /**
  * Created by LDY on 2016/9/30.
+ * 废弃部分
  */
 public class VerticalPagerAdapter extends PagerAdapter {
     private final Utils.LibraryObject[] TWO_WAY_LIBRARIES = new Utils.LibraryObject[] {

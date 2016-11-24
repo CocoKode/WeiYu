@@ -2,9 +2,11 @@ package com.example.ldy.weiyuweather.Screens;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
@@ -46,6 +48,12 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     @Bind(R.id.update_txt)
     TextView mUpdateText;
+
+    @Bind(R.id.github_item)
+    TextView githubText;
+
+    @Bind(R.id.feedback_item)
+    TextView feedbackText;
 
     BottomSheetDialog dialog;
 
@@ -89,14 +97,14 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 switch (String.valueOf(b)) {
                     case "true":
-                        ToastUtil.showShort("打开");
+                        ToastUtil.showShort("自动更新已打开");
                         SharedPreferenceUtil.getInstance().setUpdateChecked(true);
                         mUpdate.setEnabled(true);
                         mUpdate.setTextColor(getResources().getColor(R.color.txt_able_color));
                         mUpdateText.setTextColor(getResources().getColor(R.color.txt_able_color));
                         break;
                     case "false":
-                        ToastUtil.showShort("关闭");
+                        ToastUtil.showShort("自动更新已关闭");
                         mUpdate.setEnabled(false);
                         SharedPreferenceUtil.getInstance().setUpdateChecked(false);
                         mUpdate.setTextColor(getResources().getColor(R.color.txt_enable_color));
@@ -107,6 +115,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         });
 
         mUpdate.setOnClickListener(this);
+        githubText.setOnClickListener(this);
+        feedbackText.setOnClickListener(this);
     }
 
     private void showDialog() {
@@ -143,23 +153,25 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.update:
                 showDialog();
                 return;
+            case R.id.github_item:
+                goToHtml("https://github.com/FingerDancer/WeiYu");
+                return;
+            case R.id.feedback_item:
+                goToHtml("http://www.coolapk.com/u/671494");
+                return;
             case R.id.dialog_item3:
-                ToastUtil.showShort("第一项");
                 time = "3小时";
                 updateTime = 3;
                 break;
             case R.id.dialog_item6:
-                ToastUtil.showShort("第二项");
                 time = "6小时";
                 updateTime = 6;
                 break;
             case R.id.dialog_item12:
-                ToastUtil.showShort("第三项");
                 time = "12小时";
                 updateTime = 12;
                 break;
             case R.id.dialog_item24:
-                ToastUtil.showShort("第四项");
                 time = "24小时";
                 updateTime = 24;
                 break;
@@ -172,5 +184,13 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         intent.putExtra("test", updateTime);
         setResult(10, intent);
         SharedPreferenceUtil.getInstance().setUpdateTime(time);
+    }
+
+    private void goToHtml(String url) {
+        Uri uri = Uri.parse(url);   //指定网址
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);           //指定Action
+        intent.setData(uri);                            //设置Uri
+        startActivity(intent);        //启动Activity
     }
 }

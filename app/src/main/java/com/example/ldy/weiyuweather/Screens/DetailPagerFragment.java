@@ -28,12 +28,6 @@ public class DetailPagerFragment extends Fragment {
     private TextView mDetailPres;
 
     public static Fragment newInstance (Weather weather) {
-        Log.d("DetailPagerFragment", "创建新fragment");
-        if (weather.status == null) {
-            Log.d("DetailPagerFragment", "newInstance中weather为空");
-        } else {
-            Log.d("DetailPagerFragment", "newInstance中weather不为空" + weather.basic.city);
-        }
         DetailPagerFragment dPagerFragment = new DetailPagerFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(BaseApplication.getmAppContext().getResources().getString(R.string.BUNDLE_KEY), weather);
@@ -43,18 +37,11 @@ public class DetailPagerFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        Log.d("DetailPagerFragment", "onCreate");
         super.onCreate(savedInstanceState);
 
         Bundle arg = getArguments();
         if (arg != null)
             mWeather = (Weather) arg.getSerializable(this.getResources().getString(R.string.BUNDLE_KEY));
-
-        if (mWeather.status == null){
-            Log.d("DetailPagerFragment", "未接收");
-        }else {
-            Log.d("DetailPagerFragment", "接收" + mWeather.basic.city);
-        }
     }
 
     @Nullable

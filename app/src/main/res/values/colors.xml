@@ -38,6 +38,6 @@
     <color name="txt_enable_color">#53000000</color>
 
     <!-- 文字可用时颜色 -->
-    <color name="txt_able_color">#000000</color>
+    <color name="txt_able_color">@android:color/tertiary_text_dark</color>
 
 </resources>

@@ -16,6 +16,7 @@ import java.util.Calendar;
 
 /**
  * Created by LDY on 2016/10/26.
+ * 自定义日升日落控件
  */
 public class SunRiseDownView extends View{
     private int width, height;

@@ -30,8 +30,6 @@ public class AutoUpdateService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
         mUpdateTime = intent.getIntExtra("updateTime", 0);
 
-        Log.d("autoupdateservice", "onstartcommand" + mUpdateTime);
-
         new Thread(new Runnable() {
             @Override
             public void run() {
