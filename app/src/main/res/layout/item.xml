@@ -26,7 +26,7 @@
                 android:id="@+id/img_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:src="@mipmap/sunny1"
+                tools:src="@mipmap/itembg_sunny"
                 android:adjustViewBounds="true"
                 tools:ignore="ContentDescription" />
 

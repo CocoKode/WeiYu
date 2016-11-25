@@ -33,7 +33,7 @@ public class SharedPreferenceUtil {
 
 
     public boolean getUpdateChecked() {
-        return mSpfs.getBoolean(UPDATE_CHECKED, true);
+        return mSpfs.getBoolean(UPDATE_CHECKED, false);
     }
 
     public void setUpdateChecked(boolean b) {
@@ -52,7 +52,7 @@ public class SharedPreferenceUtil {
         mSpfs.edit().putString(CITY_ID, cityId).commit();
     }
     public String getCityId() {
-        return mSpfs.getString(CITY_ID, "CN101110101");
+        return mSpfs.getString(CITY_ID, "CN101010100");
     }
     public void setCityName(String cityName) {
         mSpfs.edit().putString(CITY_NAME, cityName).commit();

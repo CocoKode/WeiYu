@@ -18,7 +18,7 @@ import static com.example.ldy.weiyuweather.Utils.Utils.setupItem;
 public class VerticalPagerAdapter extends PagerAdapter {
     private final Utils.LibraryObject[] TWO_WAY_LIBRARIES = new Utils.LibraryObject[] {
             new Utils.LibraryObject(
-                    R.drawable.clound,
+                    R.drawable.car,
                     "待办事项",
                     "未知",
                     "未知"

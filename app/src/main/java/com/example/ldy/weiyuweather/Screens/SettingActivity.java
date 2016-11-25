@@ -157,7 +157,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 goToHtml("https://github.com/FingerDancer/WeiYu");
                 return;
             case R.id.feedback_item:
-                goToHtml("http://www.coolapk.com/u/671494");
+                openWebActivity("http://form.mikecrm.com/zk3BIR");
                 return;
             case R.id.dialog_item3:
                 time = "3小时";
@@ -192,5 +192,12 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         intent.setAction(Intent.ACTION_VIEW);           //指定Action
         intent.setData(uri);                            //设置Uri
         startActivity(intent);        //启动Activity
+    }
+
+    private void openWebActivity(String s) {
+        Intent intent=new Intent();
+        intent.setClass(SettingActivity.this, FeedbackActivity.class);//从一个activity跳转到另一个activity
+        intent.putExtra("url", s);
+        startActivity(intent);
     }
 }

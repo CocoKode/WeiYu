@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/sport"/>
+                android:src="@mipmap/flat_sport"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

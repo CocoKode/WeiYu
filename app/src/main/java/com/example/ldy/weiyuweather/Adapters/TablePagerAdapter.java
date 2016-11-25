@@ -3,11 +3,9 @@ package com.example.ldy.weiyuweather.Adapters;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,11 +107,11 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == NOW_WEATHER_ITEM)
-            return new nowWeatherViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.now_weather_item, parent, false));
+            return new nowWeatherViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_now_weather, parent, false));
         else if (viewType == CHART_ITEM)
-            return new chartViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.table_item, parent, false));
+            return new chartViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chart, parent, false));
         else
-            return new sunViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.sunitem, parent, false));
+            return new sunViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sun, parent, false));
     }
 
     @Override
@@ -149,35 +147,35 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private int switchIcon(String info) {
         switch (info) {
             case "晴":
-                return R.mipmap.qingtian;
+                return R.mipmap.icon_sunny;
             case "阴":
             case "多云":
             case "少云":
-                return R.mipmap.yingtian;
+                return R.mipmap.icon_yin;
             case "晴间多云":
-                return R.mipmap.qingyun;
+                return R.mipmap.icon_sunny_rain;
             case "小雨":
             case "中雨":
-                return R.mipmap.xiaoyu;
+                return R.mipmap.icon_light_rain;
             case "雨夹雪":
             case "大雨":
             case "阵雨":
-                return R.mipmap.dayu;
+                return R.mipmap.icon_heavy_rain;
             case "雷阵雨":
-                return R.mipmap.leiyu;
+                return R.mipmap.icon_thunder_rain;
             case "霾":
             case "雾":
-                return R.mipmap.mai;
+                return R.mipmap.icon_fog;
             case "小雪":
             case "中雪":
             case "大雪":
-                return R.mipmap.youxue;
+                return R.mipmap.icon_snow;
             case "有风":
             case "微风":
             case "大风":
-                return R.mipmap.youfeng;
+                return R.mipmap.icon_wind;
             default:
-                return R.mipmap.qingtian;
+                return R.mipmap.icon_sunny;
         }
     }
 
@@ -321,9 +319,8 @@ public class TablePagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 );
         chartView.addData(dataset);
 
-        int maxWind = Utils.maxValue(mWindValue)[1];
         chartView.setBorderSpacing(1)
-                .setAxisBorderValues(0, maxWind)
+                .setAxisBorderValues(0, 15, 5)
                 .setAxisLabelsSpacing(Tools.fromDpToPx(5))
                 .setXLabels(AxisRenderer.LabelPosition.OUTSIDE)
                 .setLabelsColor(Color.parseColor("#000000"))

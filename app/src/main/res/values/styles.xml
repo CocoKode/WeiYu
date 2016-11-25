@@ -15,7 +15,7 @@
     <!-- open theme -->
     <style name="openTheme" parent="TranslucentTheme">
 
-        <item name="android:windowBackground">@mipmap/open_back</item>
+        <item name="android:windowBackground">@mipmap/open_bg</item>
     </style>
 
     <style name="click_item">

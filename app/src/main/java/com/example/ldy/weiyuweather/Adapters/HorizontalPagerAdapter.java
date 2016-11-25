@@ -2,14 +2,12 @@ package com.example.ldy.weiyuweather.Adapters;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ldy.weiyuweather.Gson.Weather;
 import com.example.ldy.weiyuweather.R;
-import com.example.ldy.weiyuweather.Utils.SharedPreferenceUtil;
 import com.example.ldy.weiyuweather.Utils.Utils;
 
 import static com.example.ldy.weiyuweather.Utils.Utils.setupItem;
@@ -114,28 +112,28 @@ public class HorizontalPagerAdapter extends PagerAdapter{
     private int matchWeather(String txtD) {
         switch (txtD) {
             case "阴":
-                return R.mipmap.yin;
+                return R.mipmap.itembg_yin;
             case "晴间多云":
             case "多云":
             case "少云":
-                return R.mipmap.cloudy;
+                return R.mipmap.itembg_cloudy;
             case "小雨":
             case "中雨":
             case "大雨":
             case "阵雨":
             case "雨夹雪":
-                return R.mipmap.rain3;
+                return R.mipmap.itembg_rain;
             case "雷阵雨":
-                return R.mipmap.thunder;
+                return R.mipmap.itembg_thunder;
             case "霾":
             case "雾":
-                return R.mipmap.fog1;
+                return R.mipmap.itembg_fog;
             case "小雪":
             case "中雪":
             case "大雪":
-                return R.mipmap.snow1;
+                return R.mipmap.itembg_snow;
             default:
-                return R.mipmap.sunny3;
+                return R.mipmap.itembg_sunny;
         }
     }
 }

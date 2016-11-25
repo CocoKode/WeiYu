@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:background="@mipmap/new_bg"
+    android:background="@mipmap/application_bg"
     tools:context=".Screens.MainActivity">
 
     <LinearLayout

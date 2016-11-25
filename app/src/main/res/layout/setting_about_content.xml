@@ -7,6 +7,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:textColor="@android:color/holo_blue_light"
         android:textSize="14sp"
         android:text="关于"/>
 
@@ -15,6 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/nice_to_meet_you"
+        android:drawablePadding="5dp"
         android:textSize="16sp"
         android:text="幸会"/>
 
@@ -25,8 +28,9 @@
         android:paddingRight="32dp"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
+        android:lineSpacingMultiplier="1.6"
         android:textSize="14sp"
-        android:text="人生难测，未雨绸缪"/>
+        android:text="人生难测，未雨绸缪。\n感谢您在众多的天气类APP中选择了它。\n未雨是我的第一个个人作品，我希望它能见证我的成长和努力。如果能为其他人做一点微小的工作，那就再好不过了。\n虽然它还不完美，但我会在以后尽我所能，让它接近我心目中的完美。\n最后，感谢使用，感恩有你。"/>
 
 
 
@@ -35,6 +39,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/communication"
+        android:drawablePadding="5dp"
         android:textSize="16sp"
         android:text="交流"/>
 
@@ -59,6 +65,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/thanks"
+        android:drawablePadding="5dp"
         android:textSize="16sp"
         android:text="感谢"/>
 
