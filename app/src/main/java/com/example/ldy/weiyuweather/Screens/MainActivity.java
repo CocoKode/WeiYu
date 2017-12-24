@@ -150,7 +150,10 @@ public class MainActivity extends RxAppCompatActivity {
     }
 
     private void initViewPager() {
-        mMainAdapter = new MainAdapter(getSupportFragmentManager(), mWeather);
+        //https://segmentfault.com/q/1010000007719092/a-1020000007997531
+//         mMainAdapter = new MainAdapter(getSupportFragmentManager(), mWeather);
+       mMainAdapter = new MainAdapter(getChildFragmentManager(), mWeather);
+        
         mViewPager.setAdapter(mMainAdapter);
         mViewPager.setOffscreenPageLimit(2);
 
